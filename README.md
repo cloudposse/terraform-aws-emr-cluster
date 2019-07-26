@@ -3,7 +3,7 @@
 
 [![Cloud Posse][logo]](https://cpco.io/homepage)
 
-# terraform-aws-emr-cluster [![Codefresh Build Status](https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-emr-cluster?type=cf-1)](https://g.codefresh.io/public/accounts/cloudposse/pipelines/5d1eb949a7e22e49dc7ea7c9) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-emr-cluster.svg)](https://github.com/cloudposse/terraform-aws-emr-cluster/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
+# terraform-aws-emr-cluster [![Codefresh Build Status](https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-emr-cluster?type=cf-1)](https://g.codefresh.io/public/accounts/cloudposse/pipelines/5d3b77ee6818e3f6dec32663) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-emr-cluster.svg)](https://github.com/cloudposse/terraform-aws-emr-cluster/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 
 
 Terraform module to provision an Elastic MapReduce (EMR) cluster on AWS.
@@ -148,12 +148,12 @@ Available targets:
 
 | Name | Description |
 |------|-------------|
-| cluster_id | - |
-| cluster_name | - |
-| master_host | DB Master hostname |
-| master_public_dns | - |
-| master_security_group_id | - |
-| slave_security_group_id | - |
+| cluster_id | EMR cluster ID |
+| cluster_name | EMR cluster name |
+| master_host | Name of the cluster CNAME record for the master nodes in the parent DNS zone |
+| master_public_dns | Master public DNS |
+| master_security_group_id | Master security group ID |
+| slave_security_group_id | Slave security group ID |
 
 
 

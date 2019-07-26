@@ -71,10 +71,10 @@
 
 | Name | Description |
 |------|-------------|
-| cluster_id | - |
-| cluster_name | - |
-| master_host | DB Master hostname |
-| master_public_dns | - |
-| master_security_group_id | - |
-| slave_security_group_id | - |
+| cluster_id | EMR cluster ID |
+| cluster_name | EMR cluster name |
+| master_host | Name of the cluster CNAME record for the master nodes in the parent DNS zone |
+| master_public_dns | Master public DNS |
+| master_security_group_id | Master security group ID |
+| slave_security_group_id | Slave security group ID |
 
