@@ -326,8 +326,7 @@ resource "aws_emr_cluster" "default" {
   custom_ami_id                     = var.custom_ami_id
   visible_to_all_users              = var.visible_to_all_users
 
-  applications   = var.applications
-  configurations = var.configurations
+  applications = var.applications
 
   core_instance_group {
     name           = module.label_core.id
@@ -349,6 +348,7 @@ resource "aws_emr_cluster" "default" {
     name           = module.label_master.id
     instance_type  = var.master_instance_group_instance_type
     instance_count = var.master_instance_group_instance_count
+    bid_price      = var.master_instance_group_bid_price
 
     ebs_config {
       size                 = var.master_instance_group_ebs_size
@@ -356,16 +356,11 @@ resource "aws_emr_cluster" "default" {
       iops                 = var.master_instance_group_ebs_iops
       volumes_per_instance = var.master_instance_group_ebs_volumes_per_instance
     }
-
-    bid_price          = var.master_instance_group_bid_price
-    autoscaling_policy = var.master_instance_group_autoscaling_policy
   }
 
   scale_down_behavior    = var.scale_down_behavior
-  kerberos_attributes    = var.kerberos_attributes
   additional_info        = var.additional_info
   security_configuration = var.security_configuration
-  step                   = var.step
 
   bootstrap_action {
     path = var.bootstrap_path
@@ -381,7 +376,7 @@ resource "aws_emr_cluster" "default" {
   tags = module.label.tags
 
   lifecycle {
-    ignore_changes = ["kerberos_attributes"]
+    ignore_changes = ["kerberos_attributes", "step"]
   }
 }
 

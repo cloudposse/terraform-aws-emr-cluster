@@ -146,21 +146,6 @@ variable "applications" {
 }
 
 # https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html
-variable "configurations" {
-  type = list(object({
-    Classification = string
-    Properties     = map(string)
-    Configurations = list(object({
-      Classification = string
-      Properties     = map(string)
-    }))
-  }))
-
-  description = "List of configurations supplied for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details"
-  default     = null
-}
-
-# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html
 variable "configurations_json" {
   type        = string
   description = "A JSON string for supplying list of configurations for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details"
@@ -292,25 +277,6 @@ variable "scale_down_behavior" {
   default     = null
 }
 
-variable "master_instance_group_autoscaling_policy" {
-  type        = string
-  description = "String containing the EMR Auto Scaling Policy JSON for the Master instance group"
-  default     = null
-}
-
-variable "kerberos_attributes" {
-  type = object({
-    ad_domain_join_password              = string
-    ad_domain_join_user                  = string
-    cross_realm_trust_principal_password = string
-    kdc_admin_password                   = string
-    realm                                = string
-  })
-
-  description = "Kerberos configuration for the cluster"
-  default     = null
-}
-
 variable "additional_info" {
   type        = string
   description = "A JSON string for selecting additional features such as adding proxy information. Note: Currently there is no API to retrieve the value of this argument after EMR cluster creation from provider, therefore Terraform cannot detect drift from the actual EMR cluster if its value is changed outside Terraform"
@@ -320,23 +286,6 @@ variable "additional_info" {
 variable "security_configuration" {
   type        = string
   description = "The security configuration name to attach to the EMR cluster. Only valid for EMR clusters with `release_label` 4.8.0 or greater. See https://www.terraform.io/docs/providers/aws/r/emr_security_configuration.html for more info"
-  default     = null
-}
-
-variable "step" {
-  type = list(object({
-    name              = string
-    action_on_failure = string
-
-    hadoop_jar_step = object({
-      args       = list(string)
-      jar        = string
-      main_class = string
-      properties = map(string)
-    })
-  }))
-
-  description = "List of steps to run when creating the cluster. Defined below. It is highly recommended to utilize the lifecycle configuration block with ignore_changes if other steps are being managed outside of Terraform. This argument is processed in attribute-as-blocks mode"
   default     = null
 }
 
