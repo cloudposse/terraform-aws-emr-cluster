@@ -323,7 +323,6 @@ resource "aws_emr_cluster" "default" {
     subnet_id                         = var.subnet_id
     emr_managed_master_security_group = join("", aws_security_group.managed_master.*.id)
     emr_managed_slave_security_group  = join("", aws_security_group.managed_slave.*.id)
-    service_access_security_group     = join("", aws_security_group.managed_service_access.*.id)
     instance_profile                  = join("", aws_iam_instance_profile.ec2.*.arn)
     additional_master_security_groups = join("", aws_security_group.master.*.id)
     additional_slave_security_groups  = join("", aws_security_group.slave.*.id)
