@@ -23,6 +23,13 @@ module "label_ec2" {
   attributes = compact(concat(module.label.attributes, list("ec2")))
 }
 
+module "label_ec2_autoscaling" {
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
+  enabled    = var.enabled
+  context    = module.label.context
+  attributes = compact(concat(module.label.attributes, list("ec2", "autoscaling")))
+}
+
 module "label_master" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
@@ -292,7 +299,7 @@ https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 resource "aws_iam_role" "ec2_autoscaling" {
   count              = var.enabled ? 1 : 0
-  name               = module.label_ec2.id
+  name               = module.label_ec2_autoscaling.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
 }
 
