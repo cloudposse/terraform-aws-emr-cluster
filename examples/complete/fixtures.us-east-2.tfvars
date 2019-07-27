@@ -8,7 +8,7 @@ stage = "test"
 
 name = "emr-cluster"
 
-ebs_root_volume_size = 5
+ebs_root_volume_size = 10
 
 visible_to_all_users = false
 
@@ -26,7 +26,7 @@ core_instance_group_instance_type = "m4.large"
 
 core_instance_group_instance_count = 1
 
-core_instance_group_ebs_size = 5
+core_instance_group_ebs_size = 10
 
 core_instance_group_ebs_type = "gp2"
 
@@ -38,7 +38,7 @@ master_instance_group_instance_type = "m4.large"
 
 master_instance_group_instance_count = 1
 
-master_instance_group_ebs_size = 5
+master_instance_group_ebs_size = 10
 
 master_instance_group_ebs_type = "gp2"
 
