@@ -3,8 +3,6 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
 | additional_info | A JSON string for selecting additional features such as adding proxy information. Note: Currently there is no API to retrieve the value of this argument after EMR cluster creation from provider, therefore Terraform cannot detect drift from the actual EMR cluster if its value is changed outside Terraform | string | `null` | no |
-| additional_master_security_groups | String containing a comma separated list of additional Amazon EC2 security group IDs for the master nodes | string | `null` | no |
-| additional_slave_security_groups | String containing a comma separated list of additional Amazon EC2 security group IDs for the slave nodes | string | `null` | no |
 | applications | A list of applications for the cluster. Valid values are: Flink, Ganglia, Hadoop, HBase, HCatalog, Hive, Hue, JupyterHub, Livy, Mahout, MXNet, Oozie, Phoenix, Pig, Presto, Spark, Sqoop, TensorFlow, Tez, Zeppelin, and ZooKeeper (as of EMR 5.25.0). Case insensitive | list(string) | - | yes |
 | attributes | Additional attributes (_e.g._ "1") | list(string) | `<list>` | no |
 | bootstrap_args | List of command line arguments to pass to the bootstrap action script | list(string) | `null` | no |

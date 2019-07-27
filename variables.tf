@@ -92,18 +92,6 @@ variable "master_dns_name" {
   default     = null
 }
 
-variable "additional_master_security_groups" {
-  type        = string
-  description = "String containing a comma separated list of additional Amazon EC2 security group IDs for the master nodes"
-  default     = null
-}
-
-variable "additional_slave_security_groups" {
-  type        = string
-  description = "String containing a comma separated list of additional Amazon EC2 security group IDs for the slave nodes"
-  default     = null
-}
-
 variable "termination_protection" {
   type        = bool
   description = "Switch on/off termination protection (default is false, except when using multiple master nodes). Before attempting to destroy the resource when termination protection is enabled, this configuration must be applied with its value set to false"
