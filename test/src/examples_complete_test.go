@@ -49,4 +49,9 @@ func TestExamplesComplete(t *testing.T) {
 	awsKeyPairKeyName := terraform.Output(t, terraformOptions, "aws_key_pair_key_name")
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, "eg-test-emr-test-ssh-key", awsKeyPairKeyName)
+
+	// Run `terraform output` to get the value of an output variable
+	clusterName := terraform.Output(t, terraformOptions, "cluster_name")
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, "eg-test-emr-test", clusterName)
 }
