@@ -19,7 +19,7 @@ module "subnets" {
   vpc_id               = module.vpc.vpc_id
   igw_id               = module.vpc.igw_id
   cidr_block           = module.vpc.vpc_cidr_block
-  nat_gateway_enabled  = true
+  nat_gateway_enabled  = false
   nat_instance_enabled = false
 }
 
@@ -51,7 +51,7 @@ module "emr_cluster" {
   master_allowed_security_groups                 = [module.vpc.vpc_default_security_group_id]
   slave_allowed_security_groups                  = [module.vpc.vpc_default_security_group_id]
   vpc_id                                         = module.vpc.vpc_id
-  subnet_id                                      = module.subnets.private_subnet_ids[0]
+  subnet_id                                      = module.subnets.public_subnet_ids[0]
   ebs_root_volume_size                           = var.ebs_root_volume_size
   visible_to_all_users                           = var.visible_to_all_users
   release_label                                  = var.release_label
