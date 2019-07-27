@@ -30,8 +30,6 @@ core_instance_group_ebs_size = 10
 
 core_instance_group_ebs_type = "gp2"
 
-core_instance_group_ebs_iops = 10
-
 core_instance_group_ebs_volumes_per_instance = 1
 
 master_instance_group_instance_type = "m4.large"
@@ -41,8 +39,6 @@ master_instance_group_instance_count = 1
 master_instance_group_ebs_size = 10
 
 master_instance_group_ebs_type = "gp2"
-
-master_instance_group_ebs_iops = 10
 
 master_instance_group_ebs_volumes_per_instance = 1
 

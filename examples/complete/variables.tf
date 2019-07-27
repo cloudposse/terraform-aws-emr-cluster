@@ -83,11 +83,6 @@ variable "core_instance_group_ebs_type" {
   description = "Core instances volume type. Valid options are `gp2`, `io1`, `standard` and `st1`"
 }
 
-variable "core_instance_group_ebs_iops" {
-  type        = number
-  description = "The number of I/O operations per second (IOPS) that the Core volume supports"
-}
-
 variable "core_instance_group_ebs_volumes_per_instance" {
   type        = number
   description = "The number of EBS volumes with this configuration to attach to each EC2 instance in the Core instance group"
@@ -111,11 +106,6 @@ variable "master_instance_group_ebs_size" {
 variable "master_instance_group_ebs_type" {
   type        = string
   description = "Master instances volume type. Valid options are `gp2`, `io1`, `standard` and `st1`"
-}
-
-variable "master_instance_group_ebs_iops" {
-  type        = number
-  description = "The number of I/O operations per second (IOPS) that the Master volume supports"
 }
 
 variable "master_instance_group_ebs_volumes_per_instance" {
