@@ -82,9 +82,7 @@ Available targets:
 | additional_info | A JSON string for selecting additional features such as adding proxy information. Note: Currently there is no API to retrieve the value of this argument after EMR cluster creation from provider, therefore Terraform cannot detect drift from the actual EMR cluster if its value is changed outside Terraform | string | `null` | no |
 | applications | A list of applications for the cluster. Valid values are: Flink, Ganglia, Hadoop, HBase, HCatalog, Hive, Hue, JupyterHub, Livy, Mahout, MXNet, Oozie, Phoenix, Pig, Presto, Spark, Sqoop, TensorFlow, Tez, Zeppelin, and ZooKeeper (as of EMR 5.25.0). Case insensitive | list(string) | - | yes |
 | attributes | Additional attributes (_e.g._ "1") | list(string) | `<list>` | no |
-| bootstrap_args | List of command line arguments to pass to the bootstrap action script | list(string) | `null` | no |
-| bootstrap_name | Name of the bootstrap action | string | - | yes |
-| bootstrap_path | Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system | string | - | yes |
+| bootstrap_action | List of bootstrap actions that will be run before Hadoop is started on the cluster nodes | object | `<list>` | no |
 | configurations_json | A JSON string for supplying list of configurations for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details | string | `null` | no |
 | core_instance_group_autoscaling_policy | String containing the EMR Auto Scaling Policy JSON for the Core instance group | string | `null` | no |
 | core_instance_group_bid_price | Bid price for each EC2 instance in the Core instance group, expressed in USD. By setting this attribute, the instance group is being declared as a Spot Instance, and will implicitly create a Spot request. Leave this blank to use On-Demand Instances | string | `null` | no |

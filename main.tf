@@ -58,6 +58,27 @@ module "label_task" {
   attributes = compact(concat(module.label.attributes, list("task")))
 }
 
+module "label_master_managed" {
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
+  enabled    = var.enabled
+  context    = module.label.context
+  attributes = compact(concat(module.label.attributes, list("master", "managed")))
+}
+
+module "label_slave_managed" {
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
+  enabled    = var.enabled
+  context    = module.label.context
+  attributes = compact(concat(module.label.attributes, list("slave", "managed")))
+}
+
+module "label_service_managed" {
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
+  enabled    = var.enabled
+  context    = module.label.context
+  attributes = compact(concat(module.label.attributes, list("service", "managed")))
+}
+
 /*
 NOTE on EMR-Managed security groups: These security groups will have any missing inbound or outbound access rules added and maintained by AWS,
 to ensure proper communication between instances in a cluster. The EMR service will maintain these rules for groups provided
@@ -73,6 +94,48 @@ emr_managed_master_security_group and emr_managed_slave_security_group.
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-man-sec-groups.html
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
 
+resource "aws_security_group" "managed_master" {
+  count                  = var.enabled ? 1 : 0
+  revoke_rules_on_delete = true
+  vpc_id                 = var.vpc_id
+  name                   = module.label_master_managed.id
+  description            = "EmrManagedMasterSecurityGroup"
+  tags                   = module.label_master_managed.tags
+
+  # EMR will update "ingress" and "egress" so we ignore the changes here
+  lifecycle {
+    ignore_changes = ["ingress", "egress"]
+  }
+}
+
+resource "aws_security_group" "managed_slave" {
+  count                  = var.enabled ? 1 : 0
+  revoke_rules_on_delete = true
+  vpc_id                 = var.vpc_id
+  name                   = module.label_slave_managed.id
+  description            = "EmrManagedSlaveSecurityGroup"
+  tags                   = module.label_slave_managed.tags
+
+  # EMR will update "ingress" and "egress" so we ignore the changes here
+  lifecycle {
+    ignore_changes = ["ingress", "egress"]
+  }
+}
+
+resource "aws_security_group" "managed_service_access" {
+  count                  = var.enabled ? 1 : 0
+  revoke_rules_on_delete = true
+  vpc_id                 = var.vpc_id
+  name                   = module.label_service_managed.id
+  description            = "EmrManagedServiceAccessSecurityGroup"
+  tags                   = module.label_service_managed.tags
+
+  # EMR will update "ingress" and "egress" so we ignore the changes here
+  lifecycle {
+    ignore_changes = ["ingress", "egress"]
+  }
+}
+
 resource "aws_security_group" "master" {
   count                  = var.enabled ? 1 : 0
   revoke_rules_on_delete = true
@@ -80,11 +143,6 @@ resource "aws_security_group" "master" {
   name                   = module.label_master.id
   description            = "Allow inbound traffic from Security Groups and CIDRs for masters. Allow all outbound traffic"
   tags                   = module.label_master.tags
-
-  # EMR can update "ingress" and "egress" so we ignore the changes here
-  lifecycle {
-    ignore_changes = ["ingress", "egress"]
-  }
 }
 
 resource "aws_security_group_rule" "master_ingress_security_groups" {
@@ -127,11 +185,6 @@ resource "aws_security_group" "slave" {
   name                   = module.label_slave.id
   description            = "Allow inbound traffic from Security Groups and CIDRs for slaves. Allow all outbound traffic"
   tags                   = module.label_slave.tags
-
-  # EMR can update "ingress" and "egress" so we ignore the changes here
-  lifecycle {
-    ignore_changes = ["ingress", "egress"]
-  }
 }
 
 resource "aws_security_group_rule" "slave_ingress_security_groups" {
@@ -268,6 +321,9 @@ resource "aws_emr_cluster" "default" {
   ec2_attributes {
     key_name                          = var.key_name
     subnet_id                         = var.subnet_id
+    emr_managed_master_security_group = join("", aws_security_group.managed_master.*.id)
+    emr_managed_slave_security_group  = join("", aws_security_group.managed_slave.*.id)
+    service_access_security_group     = join("", aws_security_group.managed_service_access.*.id)
     instance_profile                  = join("", aws_iam_instance_profile.ec2.*.arn)
     additional_master_security_groups = join("", aws_security_group.master.*.id)
     additional_slave_security_groups  = join("", aws_security_group.slave.*.id)
@@ -315,10 +371,13 @@ resource "aws_emr_cluster" "default" {
   additional_info        = var.additional_info
   security_configuration = var.security_configuration
 
-  bootstrap_action {
-    path = var.bootstrap_path
-    name = var.bootstrap_name
-    args = var.bootstrap_args
+  dynamic "bootstrap_action" {
+    for_each = var.bootstrap_action
+    content {
+      path = bootstrap_action.path
+      name = bootstrap_action.name
+      args = bootstrap_action.args
+    }
   }
 
   log_uri = var.log_uri

@@ -6,7 +6,7 @@ namespace = "eg"
 
 stage = "test"
 
-name = "emr-cluster"
+name = "emr-test"
 
 ebs_root_volume_size = 10
 
@@ -16,13 +16,7 @@ release_label = "emr-5.25.0"
 
 applications = ["Hadoop", "Hive", "Presto"]
 
-bootstrap_name = "runif"
-
-bootstrap_path = "s3://elasticmapreduce/bootstrap-actions/run-if"
-
-bootstrap_args = ["instance.isMaster=true", "echo running on master node"]
-
-core_instance_group_instance_type = "m4.large"
+core_instance_group_instance_type = "m4.medium"
 
 core_instance_group_instance_count = 1
 
@@ -32,7 +26,7 @@ core_instance_group_ebs_type = "gp2"
 
 core_instance_group_ebs_volumes_per_instance = 1
 
-master_instance_group_instance_type = "m4.large"
+master_instance_group_instance_type = "m4.medium"
 
 master_instance_group_instance_count = 1
 

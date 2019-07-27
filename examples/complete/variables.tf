@@ -48,21 +48,6 @@ variable "configurations_json" {
   description = "A JSON string for supplying list of configurations for the EMR cluster"
 }
 
-variable "bootstrap_name" {
-  type        = string
-  description = "Name of the bootstrap action"
-}
-
-variable "bootstrap_path" {
-  type        = string
-  description = "Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system"
-}
-
-variable "bootstrap_args" {
-  type        = list(string)
-  description = "List of command line arguments to pass to the bootstrap action script"
-}
-
 variable "core_instance_group_instance_type" {
   type        = string
   description = "EC2 instance type for all instances in the Core instance group"

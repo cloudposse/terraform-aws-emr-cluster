@@ -43,10 +43,10 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	s3LogStorageBucketId := terraform.Output(t, terraformOptions, "s3_log_storage_bucket_id")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-emr-cluster-logs", s3LogStorageBucketId)
+	assert.Equal(t, "eg-test-emr-test-logs", s3LogStorageBucketId)
 
 	// Run `terraform output` to get the value of an output variable
 	awsKeyPairKeyName := terraform.Output(t, terraformOptions, "aws_key_pair_key_name")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "eg-test-emr-cluster-ssh-key", awsKeyPairKeyName)
+	assert.Equal(t, "eg-test-emr-test-ssh-key", awsKeyPairKeyName)
 }

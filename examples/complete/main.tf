@@ -57,9 +57,6 @@ module "emr_cluster" {
   release_label                                  = var.release_label
   applications                                   = var.applications
   configurations_json                            = var.configurations_json
-  bootstrap_name                                 = var.bootstrap_name
-  bootstrap_path                                 = var.bootstrap_path
-  bootstrap_args                                 = var.bootstrap_args
   core_instance_group_instance_type              = var.core_instance_group_instance_type
   core_instance_group_instance_count             = var.core_instance_group_instance_count
   core_instance_group_ebs_size                   = var.core_instance_group_ebs_size

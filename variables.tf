@@ -151,22 +151,6 @@ variable "subnet_id" {
   description = "VPC subnet ID where you want the job flow to launch. Cannot specify the `cc1.4xlarge` instance type for nodes of a job flow launched in a Amazon VPC"
 }
 
-variable "bootstrap_name" {
-  type        = string
-  description = "Name of the bootstrap action"
-}
-
-variable "bootstrap_path" {
-  type        = string
-  description = "Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system"
-}
-
-variable "bootstrap_args" {
-  type        = list(string)
-  description = "List of command line arguments to pass to the bootstrap action script"
-  default     = null
-}
-
 variable "log_uri" {
   type        = string
   description = "The path to the Amazon S3 location where logs for this cluster are stored"
@@ -335,4 +319,14 @@ variable "task_instance_group_autoscaling_policy" {
   type        = string
   description = "String containing the EMR Auto Scaling Policy JSON for the Task instance group"
   default     = null
+}
+
+variable "bootstrap_action" {
+  type = list(object({
+    path = string
+    name = string
+    args = list(string)
+  }))
+  description = "List of bootstrap actions that will be run before Hadoop is started on the cluster nodes"
+  default     = []
 }
