@@ -10,8 +10,8 @@
 | bootstrap_args | List of command line arguments to pass to the bootstrap action script | list(string) | `null` | no |
 | bootstrap_name | Name of the bootstrap action | string | - | yes |
 | bootstrap_path | Location of the script to run during a bootstrap action. Can be either a location in Amazon S3 or on a local file system | string | - | yes |
-| configurations | List of configurations supplied for the EMR cluster | object | `null` | no |
-| configurations_json | A JSON string for supplying list of configurations for the EMR cluster | string | `null` | no |
+| configurations | List of configurations supplied for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details | object | `null` | no |
+| configurations_json | A JSON string for supplying list of configurations for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details | string | `null` | no |
 | core_instance_group_autoscaling_policy | String containing the EMR Auto Scaling Policy JSON for the Core instance group | string | `null` | no |
 | core_instance_group_bid_price | Bid price for each EC2 instance in the Core instance group, expressed in USD. By setting this attribute, the instance group is being declared as a Spot Instance, and will implicitly create a Spot request. Leave this blank to use On-Demand Instances | string | `null` | no |
 | core_instance_group_ebs_iops | The number of I/O operations per second (IOPS) that the Core volume supports | number | `null` | no |

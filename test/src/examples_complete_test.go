@@ -33,10 +33,20 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	privateSubnetCidrs := terraform.OutputList(t, terraformOptions, "private_subnet_cidrs")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, []string{"172.16.0.0/18", "172.16.64.0/18"}, privateSubnetCidrs)
+	assert.Equal(t, []string{"172.16.0.0/19"}, privateSubnetCidrs)
 
 	// Run `terraform output` to get the value of an output variable
 	publicSubnetCidrs := terraform.OutputList(t, terraformOptions, "public_subnet_cidrs")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, []string{"172.16.128.0/18", "172.16.192.0/18"}, publicSubnetCidrs)
+	assert.Equal(t, []string{"172.16.96.0/19"}, publicSubnetCidrs)
+
+	// Run `terraform output` to get the value of an output variable
+	s3LogStorageBucketId := terraform.Output(t, terraformOptions, "s3_log_storage_bucket_id")
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, "eg-test-emr-cluster-logs", s3LogStorageBucketId)
+
+	// Run `terraform output` to get the value of an output variable
+	awsKeyPairKeyName := terraform.Output(t, terraformOptions, "aws_key_pair_key_name")
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, "eg-test-emr-cluster-ssh-key", awsKeyPairKeyName)
 }

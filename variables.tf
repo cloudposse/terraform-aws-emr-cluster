@@ -145,6 +145,7 @@ variable "applications" {
   description = "A list of applications for the cluster. Valid values are: Flink, Ganglia, Hadoop, HBase, HCatalog, Hive, Hue, JupyterHub, Livy, Mahout, MXNet, Oozie, Phoenix, Pig, Presto, Spark, Sqoop, TensorFlow, Tez, Zeppelin, and ZooKeeper (as of EMR 5.25.0). Case insensitive"
 }
 
+# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html
 variable "configurations" {
   type = list(object({
     Classification = string
@@ -155,13 +156,14 @@ variable "configurations" {
     }))
   }))
 
-  description = "List of configurations supplied for the EMR cluster"
+  description = "List of configurations supplied for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details"
   default     = null
 }
 
+# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html
 variable "configurations_json" {
   type        = string
-  description = "A JSON string for supplying list of configurations for the EMR cluster"
+  description = "A JSON string for supplying list of configurations for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details"
   default     = null
 }
 
