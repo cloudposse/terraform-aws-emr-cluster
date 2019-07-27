@@ -13,49 +13,49 @@ module "label_emr" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("emr")))
+  attributes = compact(concat(module.label.attributes, list("emr")))
 }
 
 module "label_ec2" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("ec2")))
+  attributes = compact(concat(module.label.attributes, list("ec2")))
 }
 
 module "label_master" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("master")))
+  attributes = compact(concat(module.label.attributes, list("master")))
 }
 
 module "label_slave" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("slave")))
+  attributes = compact(concat(module.label.attributes, list("slave")))
 }
 
 module "label_core" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("core")))
+  attributes = compact(concat(module.label.attributes, list("core")))
 }
 
 module "label_task" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled && var.create_task_instance_group
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("task")))
+  attributes = compact(concat(module.label.attributes, list("task")))
 }
 
 module "label_service_access" {
   source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.14.1"
   enabled    = var.enabled
   context    = module.label.context
-  attributes = concat(compact(module.label.attributes, list("service", "access")))
+  attributes = compact(concat(module.label.attributes, list("service", "access")))
 }
 
 /*
