@@ -73,6 +73,6 @@ module "emr_cluster" {
   master_instance_group_ebs_iops                 = var.master_instance_group_ebs_iops
   master_instance_group_ebs_volumes_per_instance = var.master_instance_group_ebs_volumes_per_instance
   create_task_instance_group                     = var.create_task_instance_group
-  log_uri                                        = module.s3_log_storage.bucket_arn
+  log_uri                                        = format("s3://%s", module.s3_log_storage.bucket_id)
   key_name                                       = module.aws_key_pair.key_name
 }
