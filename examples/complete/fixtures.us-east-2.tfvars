@@ -16,7 +16,7 @@ release_label = "emr-5.25.0"
 
 applications = ["Hadoop", "Hive", "Presto"]
 
-core_instance_group_instance_type = "m4.medium"
+core_instance_group_instance_type = "m4.large"
 
 core_instance_group_instance_count = 1
 
@@ -26,7 +26,7 @@ core_instance_group_ebs_type = "gp2"
 
 core_instance_group_ebs_volumes_per_instance = 1
 
-master_instance_group_instance_type = "m4.medium"
+master_instance_group_instance_type = "m4.large"
 
 master_instance_group_instance_count = 1
 
