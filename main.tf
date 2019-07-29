@@ -423,9 +423,11 @@ module "dns_master" {
 }
 
 resource "aws_vpc_endpoint" "s3" {
-  count        = var.enabled && var.subnet_type == "private" ? 1 : 0
-  vpc_id       = var.vpc_id
-  service_name = format("com.amazonaws.%s.s3", var.region)
-  auto_accept  = true
-  tags         = module.label.tags
+  count           = var.enabled && var.subnet_type == "private" ? 1 : 0
+  vpc_id          = var.vpc_id
+  service_name    = format("com.amazonaws.%s.s3", var.region)
+  auto_accept     = true
+  route_table_ids = [var.route_table_id]
+  subnet_ids      = [var.subnet_id]
+  tags            = module.label.tags
 }
