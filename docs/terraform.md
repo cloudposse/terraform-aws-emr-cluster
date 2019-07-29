@@ -38,12 +38,11 @@
 | release_label | The release label for the Amazon EMR release. https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html | string | `emr-5.25.0` | no |
 | scale_down_behavior | The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized | string | `null` | no |
 | security_configuration | The security configuration name to attach to the EMR cluster. Only valid for EMR clusters with `release_label` 4.8.0 or greater. See https://www.terraform.io/docs/providers/aws/r/emr_security_configuration.html for more info | string | `null` | no |
-| service_access_allowed_cidr_blocks | List of CIDR blocks to be allowed to connect to the cluster for service access, which applies only to clusters in private subnets | list(string) | `<list>` | no |
-| service_access_allowed_security_groups | List of security groups to be allowed to connect to the cluster for service access, which applies only to clusters in private subnets | list(string) | `<list>` | no |
 | slave_allowed_cidr_blocks | List of CIDR blocks to be allowed to access the slave instances | list(string) | `<list>` | no |
 | slave_allowed_security_groups | List of security groups to be allowed to connect to the slave instances | list(string) | `<list>` | no |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | string | `` | no |
 | subnet_id | VPC subnet ID where you want the job flow to launch. Cannot specify the `cc1.4xlarge` instance type for nodes of a job flow launched in a Amazon VPC | string | - | yes |
+| subnet_type | Type of VPC subnet ID where you want the job flow to launch. Supported values are `private` or `public` | string | `private` | no |
 | tags | Additional tags (_e.g._ { BusinessUnit : ABC }) | map(string) | `<map>` | no |
 | task_instance_group_autoscaling_policy | String containing the EMR Auto Scaling Policy JSON for the Task instance group | string | `null` | no |
 | task_instance_group_bid_price | Bid price for each EC2 instance in the Task instance group, expressed in USD. By setting this attribute, the instance group is being declared as a Spot Instance, and will implicitly create a Spot request. Leave this blank to use On-Demand Instances | string | `null` | no |

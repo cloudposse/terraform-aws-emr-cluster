@@ -57,12 +57,6 @@ variable "slave_allowed_security_groups" {
   description = "List of security groups to be allowed to connect to the slave instances"
 }
 
-variable "service_access_allowed_security_groups" {
-  type        = list(string)
-  default     = []
-  description = "List of security groups to be allowed to connect to the cluster for service access, which applies only to clusters in private subnets"
-}
-
 variable "master_allowed_cidr_blocks" {
   type        = list(string)
   default     = []
@@ -73,12 +67,6 @@ variable "slave_allowed_cidr_blocks" {
   type        = list(string)
   default     = []
   description = "List of CIDR blocks to be allowed to access the slave instances"
-}
-
-variable "service_access_allowed_cidr_blocks" {
-  type        = list(string)
-  default     = []
-  description = "List of CIDR blocks to be allowed to connect to the cluster for service access, which applies only to clusters in private subnets"
 }
 
 variable "vpc_id" {
@@ -149,6 +137,12 @@ variable "key_name" {
 variable "subnet_id" {
   type        = string
   description = "VPC subnet ID where you want the job flow to launch. Cannot specify the `cc1.4xlarge` instance type for nodes of a job flow launched in a Amazon VPC"
+}
+
+variable "subnet_type" {
+  type        = string
+  description = "Type of VPC subnet ID where you want the job flow to launch. Supported values are `private` or `public`"
+  default     = "private"
 }
 
 variable "log_uri" {
