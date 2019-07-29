@@ -144,10 +144,10 @@ variable "subnet_id" {
   description = "VPC subnet ID where you want the job flow to launch. Cannot specify the `cc1.4xlarge` instance type for nodes of a job flow launched in a Amazon VPC"
 }
 
-variable "route_table_id" {
-  type        = string
-  description = "Route table ID to create a route for the VPC S3 Endpoint when launching the EMR cluster in a private subnet. Required when `subnet_id` is `private`"
-  default     = ""
+variable "route_table_ids" {
+  type        = list(string)
+  description = "Route table IDs for the VPC S3 Endpoint when launching the EMR cluster in a private subnet. Required when `subnet_id` is `private`"
+  default     = []
 }
 
 variable "subnet_type" {

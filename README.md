@@ -103,8 +103,11 @@ module "emr_cluster" {
   name                                           = var.name
   master_allowed_security_groups                 = [module.vpc.vpc_default_security_group_id]
   slave_allowed_security_groups                  = [module.vpc.vpc_default_security_group_id]
+  region                                         = var.region
   vpc_id                                         = module.vpc.vpc_id
-  subnet_id                                      = module.subnets.public_subnet_ids[0]
+  subnet_id                                      = module.subnets.private_subnet_ids[0]
+  route_table_ids                                = module.subnets.private_route_table_ids
+  subnet_type                                    = "private"
   ebs_root_volume_size                           = var.ebs_root_volume_size
   visible_to_all_users                           = var.visible_to_all_users
   release_label                                  = var.release_label
@@ -180,7 +183,7 @@ Available targets:
 | namespace | Namespace (e.g. `eg` or `cp`) | string | `` | no |
 | region | AWS region | string | - | yes |
 | release_label | The release label for the Amazon EMR release. https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html | string | `emr-5.25.0` | no |
-| route_table_id | Route table ID to create a route for the VPC S3 Endpoint when launching the EMR cluster in a private subnet. Required when `subnet_id` is `private` | string | `` | no |
+| route_table_ids | Route table IDs for the VPC S3 Endpoint when launching the EMR cluster in a private subnet. Required when `subnet_id` is `private` | list(string) | `<list>` | no |
 | scale_down_behavior | The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized | string | `null` | no |
 | security_configuration | The security configuration name to attach to the EMR cluster. Only valid for EMR clusters with `release_label` 4.8.0 or greater. See https://www.terraform.io/docs/providers/aws/r/emr_security_configuration.html for more info | string | `null` | no |
 | slave_allowed_cidr_blocks | List of CIDR blocks to be allowed to access the slave instances | list(string) | `<list>` | no |
