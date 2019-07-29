@@ -50,9 +50,10 @@ module "emr_cluster" {
   name                                           = var.name
   master_allowed_security_groups                 = [module.vpc.vpc_default_security_group_id]
   slave_allowed_security_groups                  = [module.vpc.vpc_default_security_group_id]
+  region                                         = var.region
   vpc_id                                         = module.vpc.vpc_id
-  subnet_id                                      = module.subnets.public_subnet_ids[0]
-  subnet_type                                    = "public"
+  subnet_id                                      = module.subnets.private_subnet_ids[0]
+  subnet_type                                    = "private"
   ebs_root_volume_size                           = var.ebs_root_volume_size
   visible_to_all_users                           = var.visible_to_all_users
   release_label                                  = var.release_label

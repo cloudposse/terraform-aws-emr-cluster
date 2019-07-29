@@ -421,3 +421,11 @@ module "dns_master" {
   zone_id = var.zone_id
   records = coalescelist(aws_emr_cluster.default.*.master_public_dns, [""])
 }
+
+resource "aws_vpc_endpoint" "s3" {
+  count        = var.enabled && var.subnet_type == "private" ? 1 : 0
+  vpc_id       = var.vpc_id
+  service_name = format("com.amazonaws.%s.s3", var.region)
+  auto_accept  = true
+  tags         = module.label.tags
+}

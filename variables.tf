@@ -134,6 +134,11 @@ variable "key_name" {
   default     = null
 }
 
+variable "region" {
+  type        = string
+  description = "AWS region"
+}
+
 variable "subnet_id" {
   type        = string
   description = "VPC subnet ID where you want the job flow to launch. Cannot specify the `cc1.4xlarge` instance type for nodes of a job flow launched in a Amazon VPC"

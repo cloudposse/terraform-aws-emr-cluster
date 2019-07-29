@@ -178,6 +178,7 @@ Available targets:
 | master_instance_group_instance_type | EC2 instance type for all instances in the Master instance group | string | - | yes |
 | name | Name of the application | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | `` | no |
+| region | AWS region | string | - | yes |
 | release_label | The release label for the Amazon EMR release. https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html | string | `emr-5.25.0` | no |
 | scale_down_behavior | The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized | string | `null` | no |
 | security_configuration | The security configuration name to attach to the EMR cluster. Only valid for EMR clusters with `release_label` 4.8.0 or greater. See https://www.terraform.io/docs/providers/aws/r/emr_security_configuration.html for more info | string | `null` | no |
