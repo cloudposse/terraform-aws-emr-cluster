@@ -37,7 +37,6 @@
 | namespace | Namespace (e.g. `eg` or `cp`) | string | `` | no |
 | region | AWS region | string | - | yes |
 | release_label | The release label for the Amazon EMR release. https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-5x.html | string | `emr-5.25.0` | no |
-| route_table_ids | Route table IDs for the VPC S3 Endpoint when launching the EMR cluster in a private subnet. Required when `subnet_id` is `private` | list(string) | `<list>` | no |
 | scale_down_behavior | The way that individual Amazon EC2 instances terminate when an automatic scale-in activity occurs or an instance group is resized | string | `null` | no |
 | security_configuration | The security configuration name to attach to the EMR cluster. Only valid for EMR clusters with `release_label` 4.8.0 or greater. See https://www.terraform.io/docs/providers/aws/r/emr_security_configuration.html for more info | string | `null` | no |
 | slave_allowed_cidr_blocks | List of CIDR blocks to be allowed to access the slave instances | list(string) | `<list>` | no |

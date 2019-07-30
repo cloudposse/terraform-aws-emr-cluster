@@ -53,7 +53,6 @@ module "emr_cluster" {
   region                                         = var.region
   vpc_id                                         = module.vpc.vpc_id
   subnet_id                                      = module.subnets.private_subnet_ids[0]
-  route_table_ids                                = module.subnets.private_route_table_ids
   subnet_type                                    = "private"
   ebs_root_volume_size                           = var.ebs_root_volume_size
   visible_to_all_users                           = var.visible_to_all_users

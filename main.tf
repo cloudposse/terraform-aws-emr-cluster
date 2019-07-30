@@ -424,11 +424,17 @@ module "dns_master" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
-resource "aws_vpc_endpoint" "s3" {
+
+data "aws_route_table" "vpc_endpoint_s3" {
+  count     = var.enabled && var.subnet_type == "private" ? 1 : 0
+  subnet_id = var.subnet_id
+}
+
+resource "aws_vpc_endpoint" "vpc_endpoint_s3" {
   count           = var.enabled && var.subnet_type == "private" ? 1 : 0
   vpc_id          = var.vpc_id
   service_name    = format("com.amazonaws.%s.s3", var.region)
   auto_accept     = true
-  route_table_ids = var.route_table_ids
+  route_table_ids = [join("", data.aws_route_table.vpc_endpoint_s3.*.id)]
   tags            = module.label.tags
 }
