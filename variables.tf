@@ -150,6 +150,12 @@ variable "subnet_type" {
   default     = "private"
 }
 
+variable "route_table_id" {
+  type        = string
+  description = "Route table ID for the VPC S3 Endpoint when launching the EMR cluster in a private subnet. Required when `subnet_type` is `private`"
+  default     = ""
+}
+
 variable "log_uri" {
   type        = string
   description = "The path to the Amazon S3 location where logs for this cluster are stored"
