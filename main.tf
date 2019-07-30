@@ -79,6 +79,12 @@ module "label_service_managed" {
   attributes = compact(concat(module.label.attributes, list("service", "managed")))
 }
 
+data "aws_route_table" "vpc_endpoint_s3" {
+  count     = var.enabled && var.subnet_type == "private" ? 1 : 0
+  vpc_id    = var.vpc_id
+  subnet_id = var.subnet_id
+}
+
 /*
 NOTE on EMR-Managed security groups: These security groups will have any missing inbound or outbound access rules added and maintained by AWS,
 to ensure proper communication between instances in a cluster. The EMR service will maintain these rules for groups provided
@@ -424,12 +430,6 @@ module "dns_master" {
 
 # https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
-
-data "aws_route_table" "vpc_endpoint_s3" {
-  count     = var.enabled && var.subnet_type == "private" ? 1 : 0
-  subnet_id = var.subnet_id
-}
-
 resource "aws_vpc_endpoint" "vpc_endpoint_s3" {
   count           = var.enabled && var.subnet_type == "private" ? 1 : 0
   vpc_id          = var.vpc_id
