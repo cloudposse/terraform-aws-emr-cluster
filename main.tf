@@ -79,12 +79,6 @@ module "label_service_managed" {
   attributes = compact(concat(module.label.attributes, list("service", "managed")))
 }
 
-data "aws_route_table" "vpc_endpoint_s3" {
-  count     = var.enabled && var.subnet_type == "private" ? 1 : 0
-  vpc_id    = var.vpc_id
-  subnet_id = var.subnet_id
-}
-
 /*
 NOTE on EMR-Managed security groups: These security groups will have any missing inbound or outbound access rules added and maintained by AWS,
 to ensure proper communication between instances in a cluster. The EMR service will maintain these rules for groups provided
@@ -318,6 +312,30 @@ resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
 
+# https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
+# https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
+resource "aws_route_table" "vpc_endpoint_s3" {
+  count  = var.enabled && var.subnet_type == "private" ? 1 : 0
+  vpc_id = var.vpc_id
+  tags   = module.label.tags
+}
+
+resource "aws_route_table_association" "vpc_endpoint_s3" {
+  count          = var.enabled && var.subnet_type == "private" ? 1 : 0
+  route_table_id = join("", aws_route_table.vpc_endpoint_s3.*.id)
+  subnet_id      = var.subnet_id
+}
+
+resource "aws_vpc_endpoint" "vpc_endpoint_s3" {
+  count           = var.enabled && var.subnet_type == "private" ? 1 : 0
+  vpc_id          = var.vpc_id
+  service_name    = format("com.amazonaws.%s.s3", var.region)
+  auto_accept     = true
+  route_table_ids = [join("", aws_route_table.vpc_endpoint_s3.*.id)]
+  tags            = module.label.tags
+  depends_on      = [aws_route_table.vpc_endpoint_s3, aws_route_table_association.vpc_endpoint_s3]
+}
+
 resource "aws_emr_cluster" "default" {
   count         = var.enabled ? 1 : 0
   name          = module.label.id
@@ -426,15 +444,4 @@ module "dns_master" {
   name    = var.master_dns_name != null && var.master_dns_name != "" ? var.master_dns_name : "emr-master-${var.name}"
   zone_id = var.zone_id
   records = coalescelist(aws_emr_cluster.default.*.master_public_dns, [""])
-}
-
-# https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
-# https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
-resource "aws_vpc_endpoint" "vpc_endpoint_s3" {
-  count           = var.enabled && var.subnet_type == "private" ? 1 : 0
-  vpc_id          = var.vpc_id
-  service_name    = format("com.amazonaws.%s.s3", var.region)
-  auto_accept     = true
-  route_table_ids = [join("", data.aws_route_table.vpc_endpoint_s3.*.id)]
-  tags            = module.label.tags
 }
