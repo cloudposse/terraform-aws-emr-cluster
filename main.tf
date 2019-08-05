@@ -108,6 +108,18 @@ resource "aws_security_group" "managed_master" {
   }
 }
 
+resource "aws_security_group_rule" "managed_master_egress" {
+  count             = var.enabled ? 1 : 0
+  description       = "Allow all egress traffic"
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = join("", aws_security_group.managed_master.*.id)
+}
+
 resource "aws_security_group" "managed_slave" {
   count                  = var.enabled ? 1 : 0
   revoke_rules_on_delete = true
@@ -120,6 +132,18 @@ resource "aws_security_group" "managed_slave" {
   lifecycle {
     ignore_changes = ["ingress", "egress"]
   }
+}
+
+resource "aws_security_group_rule" "managed_slave_egress" {
+  count             = var.enabled ? 1 : 0
+  description       = "Allow all egress traffic"
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = join("", aws_security_group.managed_slave.*.id)
 }
 
 resource "aws_security_group" "managed_service_access" {
@@ -136,6 +160,19 @@ resource "aws_security_group" "managed_service_access" {
   }
 }
 
+resource "aws_security_group_rule" "managed_service_access_egress" {
+  count             = var.enabled && var.subnet_type == "private" ? 1 : 0
+  description       = "Allow all egress traffic"
+  type              = "egress"
+  from_port         = 0
+  to_port           = 0
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = join("", aws_security_group.managed_service_access.*.id)
+}
+
+# Specify additional master and slave security groups
 resource "aws_security_group" "master" {
   count                  = var.enabled ? 1 : 0
   revoke_rules_on_delete = true
