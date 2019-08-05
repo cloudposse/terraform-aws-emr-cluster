@@ -94,48 +94,7 @@ emr_managed_master_security_group and emr_managed_slave_security_group.
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-man-sec-groups.html
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
 
-resource "aws_security_group" "managed_master" {
-  count                  = var.enabled ? 1 : 0
-  revoke_rules_on_delete = true
-  vpc_id                 = var.vpc_id
-  name                   = module.label_master_managed.id
-  description            = "EmrManagedMasterSecurityGroup"
-  tags                   = module.label_master_managed.tags
-
-  # EMR will update "ingress" and "egress" so we ignore the changes here
-  lifecycle {
-    ignore_changes = ["ingress", "egress"]
-  }
-}
-
-resource "aws_security_group" "managed_slave" {
-  count                  = var.enabled ? 1 : 0
-  revoke_rules_on_delete = true
-  vpc_id                 = var.vpc_id
-  name                   = module.label_slave_managed.id
-  description            = "EmrManagedSlaveSecurityGroup"
-  tags                   = module.label_slave_managed.tags
-
-  # EMR will update "ingress" and "egress" so we ignore the changes here
-  lifecycle {
-    ignore_changes = ["ingress", "egress"]
-  }
-}
-
-resource "aws_security_group" "managed_service_access" {
-  count                  = var.enabled && var.subnet_type == "private" ? 1 : 0
-  revoke_rules_on_delete = true
-  vpc_id                 = var.vpc_id
-  name                   = module.label_service_managed.id
-  description            = "EmrManagedServiceAccessSecurityGroup"
-  tags                   = module.label_service_managed.tags
-
-  # EMR will update "ingress" and "egress" so we ignore the changes here
-  lifecycle {
-    ignore_changes = ["ingress", "egress"]
-  }
-}
-
+# Specify additional master and slave security groups
 resource "aws_security_group" "master" {
   count                  = var.enabled ? 1 : 0
   revoke_rules_on_delete = true
@@ -321,9 +280,6 @@ resource "aws_emr_cluster" "default" {
   ec2_attributes {
     key_name                          = var.key_name
     subnet_id                         = var.subnet_id
-    emr_managed_master_security_group = join("", aws_security_group.managed_master.*.id)
-    emr_managed_slave_security_group  = join("", aws_security_group.managed_slave.*.id)
-    service_access_security_group     = var.subnet_type == "private" ? join("", aws_security_group.managed_service_access.*.id) : null
     instance_profile                  = join("", aws_iam_instance_profile.ec2.*.arn)
     additional_master_security_groups = join("", aws_security_group.master.*.id)
     additional_slave_security_groups  = join("", aws_security_group.slave.*.id)

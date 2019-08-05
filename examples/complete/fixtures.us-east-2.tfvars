@@ -10,11 +10,11 @@ name = "emr-test"
 
 ebs_root_volume_size = 10
 
-visible_to_all_users = false
+visible_to_all_users = true
 
 release_label = "emr-5.25.0"
 
-applications = ["Hadoop", "Hive", "Presto"]
+applications = ["Hive", "Presto"]
 
 core_instance_group_instance_type = "m4.large"
 
@@ -41,21 +41,3 @@ create_task_instance_group = false
 ssh_public_key_path = "/secrets"
 
 generate_ssh_key = true
-
-# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html
-configurations_json = <<EOF
-  [
-    {
-      "Classification": "hadoop-env",
-      "Configurations": [
-        {
-          "Classification": "export",
-          "Properties": {
-            "JAVA_HOME": "/usr/lib/jvm/java-1.8.0"
-          }
-        }
-      ],
-      "Properties": {}
-    }
-  ]
-EOF
