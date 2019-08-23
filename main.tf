@@ -411,11 +411,13 @@ resource "aws_emr_cluster" "default" {
   dynamic "bootstrap_action" {
     for_each = var.bootstrap_action
     content {
-      path = bootstrap_action.path
-      name = bootstrap_action.name
-      args = bootstrap_action.args
+      path = bootstrap_action.value.path
+      name = bootstrap_action.value.name
+      args = bootstrap_action.value.args
     }
   }
+
+  configurations_json = var.configurations_json
 
   log_uri = var.log_uri
 
