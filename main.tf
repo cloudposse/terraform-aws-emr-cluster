@@ -270,7 +270,7 @@ data "aws_iam_policy_document" "assume_role_emr" {
 
     principals {
       type        = "Service"
-      identifiers = ["elasticmapreduce.amazonaws.com","application-autoscaling.amazonaws.com"]
+      identifiers = ["elasticmapreduce.amazonaws.com", "application-autoscaling.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
