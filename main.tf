@@ -270,7 +270,7 @@ data "aws_iam_policy_document" "assume_role_emr" {
 
     principals {
       type        = "Service"
-      identifiers = ["elasticmapreduce.amazonaws.com"]
+      identifiers = ["elasticmapreduce.amazonaws.com", "application-autoscaling.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
@@ -339,7 +339,7 @@ https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role" "ec2_autoscaling" {
   count              = var.enabled ? 1 : 0
   name               = module.label_ec2_autoscaling.id
-  assume_role_policy = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
+  assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
