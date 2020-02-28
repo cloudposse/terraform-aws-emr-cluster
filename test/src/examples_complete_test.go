@@ -4,12 +4,14 @@ import (
 	"encoding/base64"
 	"testing"
 	"math/rand"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
 
 func randStr(len int) string {
+	rand.Seed(time.Now().UnixNano())
 	buff := make([]byte, len)
 	rand.Read(buff)
 	str := base64.StdEncoding.EncodeToString(buff)
