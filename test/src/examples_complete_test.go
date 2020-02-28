@@ -1,11 +1,21 @@
 package test
 
 import (
+	"encoding/base64"
 	"testing"
+	"math/rand"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
 )
+
+func randStr(len int) string {
+	buff := make([]byte, len)
+	rand.Read(buff)
+	str := base64.StdEncoding.EncodeToString(buff)
+	// Base 64 can be longer than len
+	return str[:len]
+}
 
 // Test the Terraform module in examples/complete using Terratest.
 func TestExamplesComplete(t *testing.T) {
@@ -17,6 +27,9 @@ func TestExamplesComplete(t *testing.T) {
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-2.tfvars"},
+		Vars: map[string]interface{} {
+			"name": "emr-test-"+randStr(10),
+		},
 	}
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
