@@ -50,7 +50,7 @@ Terraform module to provision an Elastic MapReduce (EMR) cluster on AWS.
 
 ---
 
-This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps.
+This project is part of our comprehensive ["SweetOps"](https://cpco.io/sweetops) approach towards DevOps. 
 [<img align="right" title="Share via Email" src="https://docs.cloudposse.com/images/ionicons/ios-email-outline-2.0.1-16x16-999999.svg"/>][share_email]
 [<img align="right" title="Share on Google+" src="https://docs.cloudposse.com/images/ionicons/social-googleplus-outline-2.0.1-16x16-999999.svg" />][share_googleplus]
 [<img align="right" title="Share on Facebook" src="https://docs.cloudposse.com/images/ionicons/social-facebook-outline-2.0.1-16x16-999999.svg" />][share_facebook]
@@ -71,7 +71,7 @@ It's 100% Open Source and licensed under the [APACHE2](LICENSE).
 
 
 
-We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out!
+We literally have [*hundreds of terraform modules*][terraform_modules] that are Open Source and well-maintained. Check them out! 
 
 
 
@@ -259,9 +259,9 @@ Available targets:
 
 
 
-## Share the Love
+## Share the Love 
 
-Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-aws-emr-cluster)! (it helps us **a lot**)
+Like this project? Please give it a ★ on [our GitHub](https://github.com/cloudposse/terraform-aws-emr-cluster)! (it helps us **a lot**) 
 
 Are you using this project or any of our other projects? Consider [leaving a testimonial][testimonial]. =)
 
@@ -347,9 +347,9 @@ Copyright © 2017-2020 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 
-## License
+## License 
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0) 
 
 See [LICENSE](LICENSE) for full details.
 
@@ -390,7 +390,7 @@ This project is maintained and funded by [Cloud Posse, LLC][website]. Like it? P
 
 We're a [DevOps Professional Services][hire] company based in Los Angeles, CA. We ❤️  [Open Source Software][we_love_open_source].
 
-We offer [paid support][commercial_support] on all of our projects.
+We offer [paid support][commercial_support] on all of our projects.  
 
 Check out [our other projects][github], [follow us on twitter][twitter], [apply for a job][jobs], or [hire us][hire] to help with your cloud strategy and implementation.
 
