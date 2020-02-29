@@ -1,7 +1,6 @@
 package test
 
 import (
-	"encoding/base64"
 	"fmt"
 	"testing"
 	"math/rand"
@@ -11,20 +10,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func randStr(len int) string {
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyz1234567890")
+
+func RandStringRunes(n int) string {
 	rand.Seed(time.Now().UnixNano())
-	buff := make([]byte, len)
-	rand.Read(buff)
-	str := base64.StdEncoding.EncodeToString(buff)
-	// Base 64 can be longer than len
-	return str[:len]
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
 }
 
 // Test the Terraform module in examples/complete using Terratest.
 func TestExamplesComplete(t *testing.T) {
 	t.Parallel()
 
-	testName := "emr-test-"+randStr(10)
+	testName := "emr-test-"+RandStringRunes(10)
 	testNamePrefix := "eg-test"
 
 	terraformOptions := &terraform.Options{
