@@ -6,7 +6,7 @@ namespace = "eg"
 
 stage = "test"
 
-//name will be set up in test file, see 'examples_complete_test.go'
+# name will be passed in by terratest, see 'examples_complete_test.go'
 //name = "emr-test"
 
 ebs_root_volume_size = 10
