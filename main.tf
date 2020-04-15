@@ -349,6 +349,19 @@ resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
 
+# This dummy bootstrap action is needed because of terraform bug https://github.com/terraform-providers/terraform-provider-aws/issues/12683
+# When javax.jdo.option.ConnectionPassword is used in configuration_json then every plan will result in force recreation.
+locals {
+  bootstrap_action = concat(
+  [{
+    path = "file:/bin/echo",
+    name = "Dummy bootstrap action to prevent EMR cluster recration when configuration_json has parameter javax.jdo.option.ConnectionPassword.",
+    args = [md5(jsonencode(var.configurations_json))]
+  }],
+  var.bootstrap_action
+  )
+}
+
 resource "aws_emr_cluster" "default" {
   count         = var.enabled ? 1 : 0
   name          = module.label.id
@@ -409,7 +422,7 @@ resource "aws_emr_cluster" "default" {
   security_configuration = var.security_configuration
 
   dynamic "bootstrap_action" {
-    for_each = var.bootstrap_action
+    for_each = local.bootstrap_action
     content {
       path = bootstrap_action.value.path
       name = bootstrap_action.value.name
@@ -427,7 +440,7 @@ resource "aws_emr_cluster" "default" {
   tags = module.label.tags
 
   lifecycle {
-    ignore_changes = ["kerberos_attributes", "step"]
+    ignore_changes = ["kerberos_attributes", "step", "configurations_json"]
   }
 }
 
