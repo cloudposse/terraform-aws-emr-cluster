@@ -335,3 +335,9 @@ variable "bootstrap_action" {
   description = "List of bootstrap actions that will be run before Hadoop is started on the cluster nodes"
   default     = []
 }
+
+variable "create_vpc_endpoint_s3" {
+  type        = bool
+  description = "Set to false to prevent the module from creating VPC S3 Endpoint"
+  default     = true
+}
