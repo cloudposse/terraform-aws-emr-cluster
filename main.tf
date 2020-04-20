@@ -350,7 +350,9 @@ resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
 }
 
 # This dummy bootstrap action is needed because of terraform bug https://github.com/terraform-providers/terraform-provider-aws/issues/12683
-# When javax.jdo.option.ConnectionPassword is used in configuration_json then every plan will result in force recreation.
+# When javax.jdo.option.ConnectionPassword is used in configuration_json then every plan will result in force recreation of EMR cluster.
+# To mitigate this issue dummy bootstrap action `echo` was introduced. It is executed with an argument of a hash generated from configuration.
+# This in tandem with lifecycle ignore_changes for `configurations_json` will only trigger EMR recreation when hash of configuration will change.
 locals {
   bootstrap_action = concat(
     [{
@@ -439,6 +441,7 @@ resource "aws_emr_cluster" "default" {
 
   tags = module.label.tags
 
+  # configurations_json changes are ignored because of terraform bug. Configuration changes are applied via local.bootstrap_action.
   lifecycle {
     ignore_changes = ["kerberos_attributes", "step", "configurations_json"]
   }
