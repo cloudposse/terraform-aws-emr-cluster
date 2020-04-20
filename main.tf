@@ -353,12 +353,12 @@ resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
 # When javax.jdo.option.ConnectionPassword is used in configuration_json then every plan will result in force recreation.
 locals {
   bootstrap_action = concat(
-  [{
-    path = "file:/bin/echo",
-    name = "Dummy bootstrap action to prevent EMR cluster recration when configuration_json has parameter javax.jdo.option.ConnectionPassword.",
-    args = [md5(jsonencode(var.configurations_json))]
-  }],
-  var.bootstrap_action
+    [{
+      path = "file:/bin/echo",
+      name = "Dummy bootstrap action to prevent EMR cluster recration when configuration_json has parameter javax.jdo.option.ConnectionPassword.",
+      args = [md5(jsonencode(var.configurations_json))]
+    }],
+    var.bootstrap_action
   )
 }
 

@@ -46,7 +46,7 @@ variable "applications" {
 variable "configurations_json" {
   type        = string
   description = "A JSON string for supplying list of configurations for the EMR cluster"
-  default     = null
+  default     = ""
 }
 
 variable "core_instance_group_instance_type" {
