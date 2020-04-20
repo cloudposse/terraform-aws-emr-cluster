@@ -338,6 +338,6 @@ variable "bootstrap_action" {
 
 variable "create_vpc_endpoint_s3" {
   type        = bool
-  description = "Endpoint ID for VPC S3 Endpoint"
+  description = "Set to false to prevent the module from creating VPC S3 Endpoint"
   default     = true
 }
