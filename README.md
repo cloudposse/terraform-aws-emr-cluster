@@ -201,6 +201,7 @@ Available targets:
 | core_instance_group_instance_count | Target number of instances for the Core instance group. Must be at least 1 | number | `1` | no |
 | core_instance_group_instance_type | EC2 instance type for all instances in the Core instance group | string | - | yes |
 | create_task_instance_group | Whether to create an instance group for Task nodes. For more info: https://www.terraform.io/docs/providers/aws/r/emr_instance_group.html, https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html | bool | `false` | no |
+| create_vpc_endpoint_s3 | Set to false to prevent the module from creating VPC S3 Endpoint | bool | `true` | no |
 | custom_ami_id | A custom Amazon Linux AMI for the cluster (instead of an EMR-owned AMI). Available in Amazon EMR version 5.7.0 and later | string | `null` | no |
 | delimiter | Delimiter between `namespace`, `stage`, `name` and `attributes` | string | `-` | no |
 | ebs_root_volume_size | Size in GiB of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later | number | `10` | no |
