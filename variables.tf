@@ -125,7 +125,7 @@ variable "applications" {
 variable "configurations_json" {
   type        = string
   description = "A JSON string for supplying list of configurations for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details"
-  default     = null
+  default     = ""
 }
 
 variable "key_name" {
