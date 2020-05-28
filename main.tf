@@ -363,13 +363,13 @@ locals {
     var.bootstrap_action
   )
 
-  kerberos_attributes = [{
+  kerberos_attributes = {
     ad_domain_join_password              = var.kerberos_ad_domain_join_password
     ad_domain_join_user                  = var.kerberos_ad_domain_join_user
     cross_realm_trust_principal_password = var.kerberos_cross_realm_trust_principal_password
     kdc_admin_password                   = var.kerberos_kdc_admin_password
     realm                                = var.kerberos_realm
-  }]
+  }
 
 }
 
@@ -452,7 +452,6 @@ resource "aws_emr_cluster" "default" {
       realm                                = kerberos_attributes.value.realm
     }
   }
-
 
   configurations_json = var.configurations_json
 
