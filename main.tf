@@ -362,6 +362,15 @@ locals {
     }],
     var.bootstrap_action
   )
+
+  kerberos_attributes = {
+    ad_domain_join_password              = var.kerberos_ad_domain_join_password
+    ad_domain_join_user                  = var.kerberos_ad_domain_join_user
+    cross_realm_trust_principal_password = var.kerberos_cross_realm_trust_principal_password
+    kdc_admin_password                   = var.kerberos_kdc_admin_password
+    realm                                = var.kerberos_realm
+  }
+
 }
 
 resource "aws_emr_cluster" "default" {
@@ -429,6 +438,18 @@ resource "aws_emr_cluster" "default" {
       path = bootstrap_action.value.path
       name = bootstrap_action.value.name
       args = bootstrap_action.value.args
+    }
+  }
+
+  dynamic "kerberos_attributes" {
+    for_each = var.kerberos_enabled ? [local.kerberos_attributes] : []
+
+    content {
+      ad_domain_join_password              = kerberos_attributes.value.ad_domain_join_password
+      ad_domain_join_user                  = kerberos_attributes.value.ad_domain_join_user
+      cross_realm_trust_principal_password = kerberos_attributes.value.cross_realm_trust_principal_password
+      kdc_admin_password                   = kerberos_attributes.value.kdc_admin_password
+      realm                                = kerberos_attributes.value.realm
     }
   }
 

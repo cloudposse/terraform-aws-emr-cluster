@@ -341,3 +341,39 @@ variable "create_vpc_endpoint_s3" {
   description = "Set to false to prevent the module from creating VPC S3 Endpoint"
   default     = true
 }
+
+variable "kerberos_enabled" {
+  type        = bool
+  description = "Set to true if EMR cluster will use kerberos_attributes"
+  default     = false
+}
+
+variable "kerberos_ad_domain_join_password" {
+  type        = string
+  description = "The Active Directory password for ad_domain_join_user. Terraform cannot perform drift detection of this configuration."
+  default     = null
+}
+
+variable "kerberos_ad_domain_join_user" {
+  type        = string
+  description = "Required only when establishing a cross-realm trust with an Active Directory domain. A user with sufficient privileges to join resources to the domain. Terraform cannot perform drift detection of this configuration."
+  default     = null
+}
+
+variable "kerberos_cross_realm_trust_principal_password" {
+  type        = string
+  description = "Required only when establishing a cross-realm trust with a KDC in a different realm. The cross-realm principal password, which must be identical across realms. Terraform cannot perform drift detection of this configuration."
+  default     = null
+}
+
+variable "kerberos_kdc_admin_password" {
+  type        = string
+  description = "The password used within the cluster for the kadmin service on the cluster-dedicated KDC, which maintains Kerberos principals, password policies, and keytabs for the cluster. Terraform cannot perform drift detection of this configuration."
+  default     = null
+}
+
+variable "kerberos_realm" {
+  type        = string
+  description = "The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL"
+  default     = "EC2.INTERNAL"
+}
