@@ -341,10 +341,9 @@ variable "step" {
     action_on_failure = string
     name = string
     hadoop_jar_step = object({
+      args = list(string)
       jar = string
       main_class = string
-      name = string
-      args = list(string)
       properties = map(string)
     })
   }))
