@@ -441,6 +441,15 @@ resource "aws_emr_cluster" "default" {
     }
   }
 
+  dynamic "step" {
+    for_each = var.step
+    content {
+      action_on_failure = step.value.action_on_failure
+      name = step.value.name
+      hadoop_jar_step = step.value.hadoop_jar_step
+    }
+  }
+
   dynamic "kerberos_attributes" {
     for_each = var.kerberos_enabled ? [local.kerberos_attributes] : []
 

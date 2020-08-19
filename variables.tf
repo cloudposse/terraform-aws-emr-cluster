@@ -336,6 +336,21 @@ variable "bootstrap_action" {
   default     = []
 }
 
+variable "step" {
+  type = list(object({
+    action_on_failure = string
+    name = string
+    hadoop_jar_step = list(object({
+      jar = string
+      main_class = string
+      name = string
+      args = list(string)
+    }))
+  }))
+  description = "List of steps to run when creating the cluster"
+  default     = []
+}
+
 variable "create_vpc_endpoint_s3" {
   type        = bool
   description = "Set to false to prevent the module from creating VPC S3 Endpoint"
