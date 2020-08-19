@@ -340,12 +340,12 @@ variable "step" {
   type = list(object({
     action_on_failure = string
     name = string
-    # hadoop_jar_step = object({
-    #   args = list(string)
-    #   jar = string
-    #   main_class = string
-    #   properties = map(string)
-    # })
+    hadoop_jar_step = object({
+      args = list(string)
+      jar = string
+      main_class = string
+      properties = map(string)
+    })
   }))
   description = "List of steps to run when creating the cluster"
   default     = []
