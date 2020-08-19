@@ -446,7 +446,11 @@ resource "aws_emr_cluster" "default" {
     content {
       action_on_failure = step.value.action_on_failure
       name = step.value.name
-      hadoop_jar_step = step.value.hadoop_jar_step
+      hadoop_jar_step = {
+        args = step.value.hadoop_jar_step["args"]
+        jar = step.value.hadoop_jar_step["jar"]
+        main_class = step.value.hadoop_jar_step["main_class"]
+        properties = step.value.hadoop_jar_step["properties"]
     }
   }
 
