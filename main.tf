@@ -161,17 +161,14 @@ resource "aws_security_group" "managed_service_access" {
 }
 
 resource "aws_security_group_rule" "managed_master_service_access_ingress" {
-  for_each = {
-    for index, security_group in aws_security_group.managed_service_access :
-    index => security_group.id
-  }
+  count                    = var.enabled && var.subnet_type == "private" ? 1 : 0
   description              = "Allow ingress traffic from EmrManagedMasterSecurityGroup"
   type                     = "ingress"
   from_port                = 9443
   to_port                  = 9443
   protocol                 = "tcp"
-  source_security_group_id = aws_security_group.managed_master[each.key].id
-  security_group_id        = each.value
+  source_security_group_id = aws_security_group.managed_master[count.index].id
+  security_group_id        = aws_security_group.managed_service_access[count.index].id
 }
 
 resource "aws_security_group_rule" "managed_service_access_egress" {
