@@ -92,6 +92,12 @@ variable "keep_job_flow_alive_when_no_steps" {
   default     = true
 }
 
+variable "step_concurrency_level" {
+  type        = number
+  description = "The number of steps that can be executed concurrently. You can specify a maximum of 256 steps. Only valid for EMR clusters with release_label 5.28.0 or greater. (default is 1)"
+  default     = null
+}
+
 variable "ebs_root_volume_size" {
   type        = number
   description = "Size in GiB of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later"
