@@ -167,7 +167,7 @@ resource "aws_security_group_rule" "managed_master_service_access_ingress" {
   from_port                = 9443
   to_port                  = 9443
   protocol                 = "tcp"
-  source_security_group_id = aws_security_group.managed_master[count.index].id
+  source_security_group_id = join("", aws_security_group.managed_master.*.id)
   security_group_id        = aws_security_group.managed_service_access[count.index].id
 }
 
