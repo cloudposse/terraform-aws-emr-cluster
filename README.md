@@ -165,6 +165,7 @@ Available targets:
 
 ```
 <!-- markdownlint-restore -->
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -260,6 +261,7 @@ Available targets:
 | master\_security\_group\_id | Master security group ID |
 | slave\_security\_group\_id | Slave security group ID |
 
+<!-- markdownlint-restore -->
 
 
 
