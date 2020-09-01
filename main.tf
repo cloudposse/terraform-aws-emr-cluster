@@ -104,7 +104,7 @@ resource "aws_security_group" "managed_master" {
 
   # EMR will update "ingress" and "egress" so we ignore the changes here
   lifecycle {
-    ignore_changes = ["ingress", "egress"]
+    ignore_changes = [ingress, egress]
   }
 }
 
@@ -130,7 +130,7 @@ resource "aws_security_group" "managed_slave" {
 
   # EMR will update "ingress" and "egress" so we ignore the changes here
   lifecycle {
-    ignore_changes = ["ingress", "egress"]
+    ignore_changes = [ingress, egress]
   }
 }
 
@@ -156,7 +156,7 @@ resource "aws_security_group" "managed_service_access" {
 
   # EMR will update "ingress" and "egress" so we ignore the changes here
   lifecycle {
-    ignore_changes = ["ingress", "egress"]
+    ignore_changes = [ingress, egress]
   }
 }
 
@@ -464,7 +464,7 @@ resource "aws_emr_cluster" "default" {
 
   # configurations_json changes are ignored because of terraform bug. Configuration changes are applied via local.bootstrap_action.
   lifecycle {
-    ignore_changes = ["kerberos_attributes", "step", "configurations_json"]
+    ignore_changes = [kerberos_attributes, step, configurations_json]
   }
 }
 
