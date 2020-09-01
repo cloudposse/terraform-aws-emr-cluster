@@ -1,3 +1,4 @@
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -21,7 +22,6 @@
 | applications | A list of applications for the cluster. Valid values are: Flink, Ganglia, Hadoop, HBase, HCatalog, Hive, Hue, JupyterHub, Livy, Mahout, MXNet, Oozie, Phoenix, Pig, Presto, Spark, Sqoop, TensorFlow, Tez, Zeppelin, and ZooKeeper (as of EMR 5.25.0). Case insensitive | `list(string)` | n/a | yes |
 | attributes | Additional attributes (\_e.g.\_ "1") | `list(string)` | `[]` | no |
 | bootstrap\_action | List of bootstrap actions that will be run before Hadoop is started on the cluster nodes | <pre>list(object({<br>    path = string<br>    name = string<br>    args = list(string)<br>  }))</pre> | `[]` | no |
-| step | List of steps to run when creating the cluster | <pre>list(object({<br/>    action_on_failure = string<br/>    name = string<br/>    hadoop_jar_step = object({<br/>      args = list(string)<br/>      jar = string<br/>      main_class = string<br/>      properties = map(string)<br/>    })<br/>}))</pre> | `[]` | no |
 | configurations\_json | A JSON string for supplying list of configurations for the EMR cluster. See https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-configure-apps.html for more details | `string` | `""` | no |
 | core\_instance\_group\_autoscaling\_policy | String containing the EMR Auto Scaling Policy JSON for the Core instance group | `string` | `null` | no |
 | core\_instance\_group\_bid\_price | Bid price for each EC2 instance in the Core instance group, expressed in USD. By setting this attribute, the instance group is being declared as a Spot Instance, and will implicitly create a Spot request. Leave this blank to use On-Demand Instances | `string` | `null` | no |
@@ -66,6 +66,7 @@
 | slave\_allowed\_cidr\_blocks | List of CIDR blocks to be allowed to access the slave instances | `list(string)` | `[]` | no |
 | slave\_allowed\_security\_groups | List of security groups to be allowed to connect to the slave instances | `list(string)` | `[]` | no |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | `string` | `""` | no |
+| step | List of steps to run when creating the cluster | <pre>list(object({<br>    action_on_failure = string<br>    name = string<br>    hadoop_jar_step = object({<br>      args = list(string)<br>      jar = string<br>      main_class = string<br>      properties = map(string)<br>    })<br>  }))</pre> | `[]` | no |
 | subnet\_id | VPC subnet ID where you want the job flow to launch. Cannot specify the `cc1.4xlarge` instance type for nodes of a job flow launched in a Amazon VPC | `string` | n/a | yes |
 | subnet\_type | Type of VPC subnet ID where you want the job flow to launch. Supported values are `private` or `public` | `string` | `"private"` | no |
 | tags | Additional tags (\_e.g.\_ { BusinessUnit : ABC }) | `map(string)` | `{}` | no |
@@ -94,3 +95,4 @@
 | master\_security\_group\_id | Master security group ID |
 | slave\_security\_group\_id | Slave security group ID |
 
+<!-- markdownlint-restore -->
