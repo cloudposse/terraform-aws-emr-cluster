@@ -392,6 +392,7 @@ resource "aws_emr_cluster" "default" {
 
   termination_protection            = var.termination_protection
   keep_job_flow_alive_when_no_steps = var.keep_job_flow_alive_when_no_steps
+  step_concurrency_level            = var.step_concurrency_level
   ebs_root_volume_size              = var.ebs_root_volume_size
   custom_ami_id                     = var.custom_ami_id
   visible_to_all_users              = var.visible_to_all_users
