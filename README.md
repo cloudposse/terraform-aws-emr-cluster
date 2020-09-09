@@ -259,6 +259,7 @@ Available targets:
 | master\_public\_dns | Master public DNS |
 | master\_security\_group\_id | Master security group ID |
 | slave\_security\_group\_id | Slave security group ID |
+| ec2_role | Role name of EMR EC2 instances so users can attach more policies |
 
 
 
