@@ -27,3 +27,8 @@ output "master_host" {
   value       = module.dns_master.hostname
   description = "Name of the cluster CNAME record for the master nodes in the parent DNS zone"
 }
+
+output "ec2_role" {
+  value       = join("", aws_iam_role.ec2.*.name)
+  description = "Role name of EMR EC2 instances so users can attach more policies"
+}
