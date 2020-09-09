@@ -165,6 +165,7 @@ Available targets:
 
 ```
 <!-- markdownlint-restore -->
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
@@ -255,12 +256,13 @@ Available targets:
 |------|-------------|
 | cluster\_id | EMR cluster ID |
 | cluster\_name | EMR cluster name |
+| ec2\_role | Role name of EMR EC2 instances so users can attach more policies |
 | master\_host | Name of the cluster CNAME record for the master nodes in the parent DNS zone |
 | master\_public\_dns | Master public DNS |
 | master\_security\_group\_id | Master security group ID |
 | slave\_security\_group\_id | Slave security group ID |
-| ec2_role | Role name of EMR EC2 instances so users can attach more policies |
 
+<!-- markdownlint-restore -->
 
 
 
