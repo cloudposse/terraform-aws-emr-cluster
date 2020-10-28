@@ -14,16 +14,21 @@ tags:
   - emr
   - emr-cluster
   - cluster
+  - map-reduce
+
 # Categories of this project
 categories:
   - terraform-modules/databases
+
 # Logo for this project
 #logo: docs/logo.png
 
 # License of this project
 license: "APACHE2"
+
 # Canonical GitHub repo
 github_repo: cloudposse/terraform-aws-emr-cluster
+
 # Badges to display
 badges:
   - name: "Latest Release"
@@ -42,13 +47,17 @@ related:
   - name: "terraform-aws-rds-cloudwatch-sns-alarms"
     description: "Terraform module that configures important RDS alerts using CloudWatch and sends them to an SNS topic"
     url: "https://github.com/cloudposse/terraform-aws-rds-cloudwatch-sns-alarms"
+
 # Short description of this project
 description: |-
   Terraform module to provision an Elastic MapReduce (EMR) cluster on AWS.
+
 # How to use this project
 usage: |2-
 
   For a complete example, see [examples/complete](examples/complete)
+
+  For automated tests of the complete example using [bats](https://github.com/bats-core/bats-core) and [Terratest](https://github.com/gruntwork-io/terratest) (which tests and deploys the example on AWS), see [test](test).
 
   ```hcl
   provider "aws" {
@@ -128,6 +137,7 @@ usage: |2-
     key_name                                       = module.aws_key_pair.key_name
   }
   ```
+
 # Example usage
 #examples: |-
 #  Example goes here...
@@ -140,6 +150,7 @@ usage: |2-
 include:
   - "docs/targets.md"
   - "docs/terraform.md"
+
 # Contributors to this project
 contributors:
   - name: "Erik Osterman"

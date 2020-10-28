@@ -13,7 +13,8 @@ ebs_root_volume_size = 10
 
 visible_to_all_users = true
 
-release_label = "emr-5.25.0"
+# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-components.html
+release_label = "emr-6.1.0"
 
 applications = ["Hive", "Presto"]
 

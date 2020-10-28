@@ -2,8 +2,8 @@ package test
 
 import (
 	"fmt"
-	"testing"
 	"math/rand"
+	"testing"
 	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -25,7 +25,7 @@ func RandStringRunes(n int) string {
 func TestExamplesComplete(t *testing.T) {
 	t.Parallel()
 
-	testName := "emr-test-"+RandStringRunes(10)
+	testName := "emr-test-" + RandStringRunes(10)
 	testNamePrefix := "eg-test"
 
 	terraformOptions := &terraform.Options{
@@ -34,7 +34,7 @@ func TestExamplesComplete(t *testing.T) {
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-2.tfvars"},
-		Vars: map[string]interface{} {
+		Vars: map[string]interface{}{
 			"name": testName,
 		},
 	}
@@ -63,15 +63,15 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	s3LogStorageBucketId := terraform.Output(t, terraformOptions, "s3_log_storage_bucket_id")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, fmt.Sprintf("%s-%s-logs",testNamePrefix, testName), s3LogStorageBucketId)
+	assert.Equal(t, fmt.Sprintf("%s-%s-logs", testNamePrefix, testName), s3LogStorageBucketId)
 
 	// Run `terraform output` to get the value of an output variable
 	awsKeyPairKeyName := terraform.Output(t, terraformOptions, "aws_key_pair_key_name")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, fmt.Sprintf("%s-%s-ssh-key",testNamePrefix, testName), awsKeyPairKeyName)
+	assert.Equal(t, fmt.Sprintf("%s-%s-ssh-key", testNamePrefix, testName), awsKeyPairKeyName)
 
 	// Run `terraform output` to get the value of an output variable
 	clusterName := terraform.Output(t, terraformOptions, "cluster_name")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, fmt.Sprintf("%s-%s",testNamePrefix, testName), clusterName)
+	assert.Equal(t, fmt.Sprintf("%s-%s", testNamePrefix, testName), clusterName)
 }
