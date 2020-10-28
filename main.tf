@@ -1,82 +1,62 @@
-module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  namespace  = var.namespace
-  name       = var.name
-  stage      = var.stage
-  delimiter  = var.delimiter
-  attributes = var.attributes
-  tags       = var.tags
-}
-
 module "label_emr" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("emr")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("emr")))
+  context    = module.this.context
 }
 
 module "label_ec2" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("ec2")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("ec2")))
+  context    = module.this.context
 }
 
 module "label_ec2_autoscaling" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("ec2", "autoscaling")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("ec2", "autoscaling")))
+  context    = module.this.context
 }
 
 module "label_master" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("master")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("master")))
+  context    = module.this.context
 }
 
 module "label_slave" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("slave")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("slave")))
+  context    = module.this.context
 }
 
 module "label_core" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("core")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("core")))
+  context    = module.this.context
 }
 
 module "label_task" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled && var.create_task_instance_group
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("task")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  enabled    = module.this.enabled && var.create_task_instance_group
+  attributes = compact(concat(module.this.attributes, list("task")))
+  context    = module.this.context
 }
 
 module "label_master_managed" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("master", "managed")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("master", "managed")))
+  context    = module.this.context
 }
 
 module "label_slave_managed" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("slave", "managed")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("slave", "managed")))
+  context    = module.this.context
 }
 
 module "label_service_managed" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  enabled    = var.enabled
-  context    = module.label.context
-  attributes = compact(concat(module.label.attributes, list("service", "managed")))
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  attributes = compact(concat(module.this.attributes, list("service", "managed")))
+  context    = module.this.context
 }
 
 /*
@@ -95,7 +75,7 @@ emr_managed_master_security_group and emr_managed_slave_security_group.
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
 
 resource "aws_security_group" "managed_master" {
-  count                  = var.enabled ? 1 : 0
+  count                  = module.this.enabled ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_master_managed.id
@@ -109,7 +89,7 @@ resource "aws_security_group" "managed_master" {
 }
 
 resource "aws_security_group_rule" "managed_master_egress" {
-  count             = var.enabled ? 1 : 0
+  count             = module.this.enabled ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -121,7 +101,7 @@ resource "aws_security_group_rule" "managed_master_egress" {
 }
 
 resource "aws_security_group" "managed_slave" {
-  count                  = var.enabled ? 1 : 0
+  count                  = module.this.enabled ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_slave_managed.id
@@ -135,7 +115,7 @@ resource "aws_security_group" "managed_slave" {
 }
 
 resource "aws_security_group_rule" "managed_slave_egress" {
-  count             = var.enabled ? 1 : 0
+  count             = module.this.enabled ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -147,7 +127,7 @@ resource "aws_security_group_rule" "managed_slave_egress" {
 }
 
 resource "aws_security_group" "managed_service_access" {
-  count                  = var.enabled && var.subnet_type == "private" ? 1 : 0
+  count                  = module.this.enabled && var.subnet_type == "private" ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_service_managed.id
@@ -161,7 +141,7 @@ resource "aws_security_group" "managed_service_access" {
 }
 
 resource "aws_security_group_rule" "managed_master_service_access_ingress" {
-  count                    = var.enabled && var.subnet_type == "private" ? 1 : 0
+  count                    = module.this.enabled && var.subnet_type == "private" ? 1 : 0
   description              = "Allow ingress traffic from EmrManagedMasterSecurityGroup"
   type                     = "ingress"
   from_port                = 9443
@@ -172,7 +152,7 @@ resource "aws_security_group_rule" "managed_master_service_access_ingress" {
 }
 
 resource "aws_security_group_rule" "managed_service_access_egress" {
-  count             = var.enabled && var.subnet_type == "private" ? 1 : 0
+  count             = module.this.enabled && var.subnet_type == "private" ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -185,7 +165,7 @@ resource "aws_security_group_rule" "managed_service_access_egress" {
 
 # Specify additional master and slave security groups
 resource "aws_security_group" "master" {
-  count                  = var.enabled ? 1 : 0
+  count                  = module.this.enabled ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_master.id
@@ -194,7 +174,7 @@ resource "aws_security_group" "master" {
 }
 
 resource "aws_security_group_rule" "master_ingress_security_groups" {
-  count                    = var.enabled ? length(var.master_allowed_security_groups) : 0
+  count                    = module.this.enabled ? length(var.master_allowed_security_groups) : 0
   description              = "Allow inbound traffic from Security Groups"
   type                     = "ingress"
   from_port                = 0
@@ -205,7 +185,7 @@ resource "aws_security_group_rule" "master_ingress_security_groups" {
 }
 
 resource "aws_security_group_rule" "master_ingress_cidr_blocks" {
-  count             = var.enabled && length(var.master_allowed_cidr_blocks) > 0 ? 1 : 0
+  count             = module.this.enabled && length(var.master_allowed_cidr_blocks) > 0 ? 1 : 0
   description       = "Allow inbound traffic from CIDR blocks"
   type              = "ingress"
   from_port         = 0
@@ -216,7 +196,7 @@ resource "aws_security_group_rule" "master_ingress_cidr_blocks" {
 }
 
 resource "aws_security_group_rule" "master_egress" {
-  count             = var.enabled ? 1 : 0
+  count             = module.this.enabled ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -227,7 +207,7 @@ resource "aws_security_group_rule" "master_egress" {
 }
 
 resource "aws_security_group" "slave" {
-  count                  = var.enabled ? 1 : 0
+  count                  = module.this.enabled ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_slave.id
@@ -236,7 +216,7 @@ resource "aws_security_group" "slave" {
 }
 
 resource "aws_security_group_rule" "slave_ingress_security_groups" {
-  count                    = var.enabled ? length(var.slave_allowed_security_groups) : 0
+  count                    = module.this.enabled ? length(var.slave_allowed_security_groups) : 0
   description              = "Allow inbound traffic from Security Groups"
   type                     = "ingress"
   from_port                = 0
@@ -247,7 +227,7 @@ resource "aws_security_group_rule" "slave_ingress_security_groups" {
 }
 
 resource "aws_security_group_rule" "slave_ingress_cidr_blocks" {
-  count             = var.enabled && length(var.slave_allowed_cidr_blocks) > 0 ? 1 : 0
+  count             = module.this.enabled && length(var.slave_allowed_cidr_blocks) > 0 ? 1 : 0
   description       = "Allow inbound traffic from CIDR blocks"
   type              = "ingress"
   from_port         = 0
@@ -258,7 +238,7 @@ resource "aws_security_group_rule" "slave_ingress_cidr_blocks" {
 }
 
 resource "aws_security_group_rule" "slave_egress" {
-  count             = var.enabled ? 1 : 0
+  count             = module.this.enabled ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -274,7 +254,7 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 data "aws_iam_policy_document" "assume_role_emr" {
-  count = var.enabled ? 1 : 0
+  count = module.this.enabled ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -289,14 +269,14 @@ data "aws_iam_policy_document" "assume_role_emr" {
 }
 
 resource "aws_iam_role" "emr" {
-  count              = var.enabled ? 1 : 0
+  count              = module.this.enabled ? 1 : 0
   name               = module.label_emr.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role_policy_attachment" "emr" {
-  count      = var.enabled ? 1 : 0
+  count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.emr.*.name)
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
 }
@@ -309,7 +289,7 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 data "aws_iam_policy_document" "assume_role_ec2" {
-  count = var.enabled ? 1 : 0
+  count = module.this.enabled ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -324,20 +304,20 @@ data "aws_iam_policy_document" "assume_role_ec2" {
 }
 
 resource "aws_iam_role" "ec2" {
-  count              = var.enabled ? 1 : 0
+  count              = module.this.enabled ? 1 : 0
   name               = module.label_ec2.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role_policy_attachment" "ec2" {
-  count      = var.enabled ? 1 : 0
+  count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2.*.name)
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
 resource "aws_iam_instance_profile" "ec2" {
-  count = var.enabled ? 1 : 0
+  count = module.this.enabled ? 1 : 0
   name  = join("", aws_iam_role.ec2.*.name)
   role  = join("", aws_iam_role.ec2.*.name)
 }
@@ -348,14 +328,14 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 resource "aws_iam_role" "ec2_autoscaling" {
-  count              = var.enabled ? 1 : 0
+  count              = module.this.enabled ? 1 : 0
   name               = module.label_ec2_autoscaling.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
-  count      = var.enabled ? 1 : 0
+  count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2_autoscaling.*.name)
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
@@ -368,7 +348,7 @@ locals {
   bootstrap_action = concat(
     [{
       path = "file:/bin/echo",
-      name = "Dummy bootstrap action to prevent EMR cluster recration when configuration_json has parameter javax.jdo.option.ConnectionPassword.",
+      name = "Dummy bootstrap action to prevent EMR cluster recreation when configuration_json has parameter javax.jdo.option.ConnectionPassword",
       args = [md5(jsonencode(var.configurations_json))]
     }],
     var.bootstrap_action
@@ -385,8 +365,8 @@ locals {
 }
 
 resource "aws_emr_cluster" "default" {
-  count         = var.enabled ? 1 : 0
-  name          = module.label.id
+  count         = module.this.enabled ? 1 : 0
+  name          = module.this.id
   release_label = var.release_label
 
   # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-sg-specify.html
@@ -472,7 +452,7 @@ resource "aws_emr_cluster" "default" {
   service_role     = join("", aws_iam_role.emr.*.arn)
   autoscaling_role = join("", aws_iam_role.ec2_autoscaling.*.arn)
 
-  tags = module.label.tags
+  tags = module.this.tags
 
   # configurations_json changes are ignored because of terraform bug. Configuration changes are applied via local.bootstrap_action.
   lifecycle {
@@ -483,7 +463,7 @@ resource "aws_emr_cluster" "default" {
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html
 # https://www.terraform.io/docs/providers/aws/r/emr_instance_group.html
 resource "aws_emr_instance_group" "task" {
-  count      = var.enabled && var.create_task_instance_group ? 1 : 0
+  count      = module.this.enabled && var.create_task_instance_group ? 1 : 0
   name       = module.label_task.id
   cluster_id = join("", aws_emr_cluster.default.*.id)
 
@@ -503,20 +483,23 @@ resource "aws_emr_instance_group" "task" {
 }
 
 module "dns_master" {
-  source  = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.5.0"
-  enabled = var.enabled && var.zone_id != null && var.zone_id != "" ? true : false
-  name    = var.master_dns_name != null && var.master_dns_name != "" ? var.master_dns_name : "emr-master-${var.name}"
-  zone_id = var.zone_id
-  records = coalescelist(aws_emr_cluster.default.*.master_public_dns, [""])
+  source = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.7.0"
+
+  enabled  = module.this.enabled && var.zone_id != null && var.zone_id != "" ? true : false
+  dns_name = var.master_dns_name != null && var.master_dns_name != "" ? var.master_dns_name : "emr-master-${var.name}"
+  zone_id  = var.zone_id
+  records  = coalescelist(aws_emr_cluster.default.*.master_public_dns, [""])
+
+  context = module.this.context
 }
 
 # https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
 resource "aws_vpc_endpoint" "vpc_endpoint_s3" {
-  count           = var.enabled && var.subnet_type == "private" && var.create_vpc_endpoint_s3 ? 1 : 0
+  count           = module.this.enabled && var.subnet_type == "private" && var.create_vpc_endpoint_s3 ? 1 : 0
   vpc_id          = var.vpc_id
   service_name    = format("com.amazonaws.%s.s3", var.region)
   auto_accept     = true
   route_table_ids = [var.route_table_id]
-  tags            = module.label.tags
+  tags            = module.this.tags
 }

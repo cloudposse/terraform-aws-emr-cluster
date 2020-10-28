@@ -3,38 +3,37 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.16.1"
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
+  source = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=tags/0.17.0"
+
   cidr_block = "172.16.0.0/16"
+
+  context = module.this.context
 }
 
 module "subnets" {
-  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.26.0"
+  source = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=tags/0.30.0"
+
   availability_zones   = var.availability_zones
-  namespace            = var.namespace
-  stage                = var.stage
-  name                 = var.name
   vpc_id               = module.vpc.vpc_id
   igw_id               = module.vpc.igw_id
   cidr_block           = module.vpc.vpc_cidr_block
   nat_gateway_enabled  = false
   nat_instance_enabled = false
+
+  context = module.this.context
 }
 
 module "s3_log_storage" {
-  source        = "git::https://github.com/cloudposse/terraform-aws-s3-log-storage.git?ref=tags/0.13.1"
-  region        = var.region
-  namespace     = var.namespace
-  stage         = var.stage
-  name          = var.name
+  source = "git::https://github.com/cloudposse/terraform-aws-s3-log-storage.git?ref=tags/0.14.0"
+
   attributes    = ["logs"]
   force_destroy = true
+
+  context = module.this.context
 }
 
 module "aws_key_pair" {
-  source              = "git::https://github.com/cloudposse/terraform-aws-key-pair.git?ref=tags/0.13.1"
+  source              = "git::https://github.com/cloudposse/terraform-aws-key-pair.git?ref=tags/0.14.0"
   namespace           = var.namespace
   stage               = var.stage
   name                = var.name
@@ -44,10 +43,8 @@ module "aws_key_pair" {
 }
 
 module "emr_cluster" {
-  source                                         = "../../"
-  namespace                                      = var.namespace
-  stage                                          = var.stage
-  name                                           = var.name
+  source = "../../"
+
   master_allowed_security_groups                 = [module.vpc.vpc_default_security_group_id]
   slave_allowed_security_groups                  = [module.vpc.vpc_default_security_group_id]
   region                                         = var.region
@@ -73,4 +70,6 @@ module "emr_cluster" {
   create_task_instance_group                     = var.create_task_instance_group
   log_uri                                        = format("s3://%s", module.s3_log_storage.bucket_id)
   key_name                                       = module.aws_key_pair.key_name
+
+  context = module.this.context
 }
