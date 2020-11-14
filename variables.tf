@@ -345,7 +345,7 @@ variable "kerberos_realm" {
 
 variable "steps" {
   type = list(object({
-    name = string
+    name              = string
     action_on_failure = string
     hadoop_jar_step = object({
       args       = list(string)
