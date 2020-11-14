@@ -342,3 +342,18 @@ variable "kerberos_realm" {
   description = "The name of the Kerberos realm to which all nodes in a cluster belong. For example, EC2.INTERNAL"
   default     = "EC2.INTERNAL"
 }
+
+variable "steps" {
+  type = list(object({
+    name              = string
+    action_on_failure = string
+    hadoop_jar_step = object({
+      args       = list(string)
+      jar        = string
+      main_class = string
+      properties = map(string)
+    })
+  }))
+  description = "List of steps to run when creating the cluster."
+  default     = []
+}
