@@ -75,7 +75,7 @@ emr_managed_master_security_group and emr_managed_slave_security_group.
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html
 
 resource "aws_security_group" "managed_master" {
-  count                  = module.this.enabled ? 1 : 0
+  count                  = module.this.enabled && var.use_existing_managed_master_security_group == false ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_master_managed.id
@@ -89,7 +89,7 @@ resource "aws_security_group" "managed_master" {
 }
 
 resource "aws_security_group_rule" "managed_master_egress" {
-  count             = module.this.enabled ? 1 : 0
+  count             = module.this.enabled && var.use_existing_managed_master_security_group == false ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -101,7 +101,7 @@ resource "aws_security_group_rule" "managed_master_egress" {
 }
 
 resource "aws_security_group" "managed_slave" {
-  count                  = module.this.enabled ? 1 : 0
+  count                  = module.this.enabled && var.use_existing_managed_slave_security_group == false ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_slave_managed.id
@@ -115,7 +115,7 @@ resource "aws_security_group" "managed_slave" {
 }
 
 resource "aws_security_group_rule" "managed_slave_egress" {
-  count             = module.this.enabled ? 1 : 0
+  count             = module.this.enabled && var.use_existing_managed_slave_security_group == false ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -127,7 +127,7 @@ resource "aws_security_group_rule" "managed_slave_egress" {
 }
 
 resource "aws_security_group" "managed_service_access" {
-  count                  = module.this.enabled && var.subnet_type == "private" ? 1 : 0
+  count                  = module.this.enabled && var.subnet_type == "private" && var.use_existing_service_access_security_group == false ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_service_managed.id
@@ -141,7 +141,7 @@ resource "aws_security_group" "managed_service_access" {
 }
 
 resource "aws_security_group_rule" "managed_master_service_access_ingress" {
-  count                    = module.this.enabled && var.subnet_type == "private" ? 1 : 0
+  count                    = module.this.enabled && var.subnet_type == "private" && var.use_existing_service_access_security_group == false ? 1 : 0
   description              = "Allow ingress traffic from EmrManagedMasterSecurityGroup"
   type                     = "ingress"
   from_port                = 9443
@@ -152,7 +152,7 @@ resource "aws_security_group_rule" "managed_master_service_access_ingress" {
 }
 
 resource "aws_security_group_rule" "managed_service_access_egress" {
-  count             = module.this.enabled && var.subnet_type == "private" ? 1 : 0
+  count             = module.this.enabled && var.subnet_type == "private" && var.use_existing_service_access_security_group == false ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -165,7 +165,7 @@ resource "aws_security_group_rule" "managed_service_access_egress" {
 
 # Specify additional master and slave security groups
 resource "aws_security_group" "master" {
-  count                  = module.this.enabled ? 1 : 0
+  count                  = module.this.enabled && var.use_existing_additional_master_security_group == false ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_master.id
@@ -174,7 +174,7 @@ resource "aws_security_group" "master" {
 }
 
 resource "aws_security_group_rule" "master_ingress_security_groups" {
-  count                    = module.this.enabled ? length(var.master_allowed_security_groups) : 0
+  count                    = module.this.enabled && var.use_existing_additional_master_security_group == false ? length(var.master_allowed_security_groups) : 0 
   description              = "Allow inbound traffic from Security Groups"
   type                     = "ingress"
   from_port                = 0
@@ -185,7 +185,7 @@ resource "aws_security_group_rule" "master_ingress_security_groups" {
 }
 
 resource "aws_security_group_rule" "master_ingress_cidr_blocks" {
-  count             = module.this.enabled && length(var.master_allowed_cidr_blocks) > 0 ? 1 : 0
+  count             = module.this.enabled && length(var.master_allowed_cidr_blocks) > 0 && var.use_existing_additional_master_security_group == false ? 1 : 0
   description       = "Allow inbound traffic from CIDR blocks"
   type              = "ingress"
   from_port         = 0
@@ -196,7 +196,7 @@ resource "aws_security_group_rule" "master_ingress_cidr_blocks" {
 }
 
 resource "aws_security_group_rule" "master_egress" {
-  count             = module.this.enabled ? 1 : 0
+  count             = module.this.enabled && var.use_existing_additional_master_security_group == false ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -207,7 +207,7 @@ resource "aws_security_group_rule" "master_egress" {
 }
 
 resource "aws_security_group" "slave" {
-  count                  = module.this.enabled ? 1 : 0
+  count                  = module.this.enabled && var.use_existing_additional_slave_security_group == false ? 1 : 0
   revoke_rules_on_delete = true
   vpc_id                 = var.vpc_id
   name                   = module.label_slave.id
@@ -216,7 +216,7 @@ resource "aws_security_group" "slave" {
 }
 
 resource "aws_security_group_rule" "slave_ingress_security_groups" {
-  count                    = module.this.enabled ? length(var.slave_allowed_security_groups) : 0
+  count                    = module.this.enabled && var.use_existing_additional_slave_security_group == false ? length(var.slave_allowed_security_groups) : 0
   description              = "Allow inbound traffic from Security Groups"
   type                     = "ingress"
   from_port                = 0
@@ -227,7 +227,7 @@ resource "aws_security_group_rule" "slave_ingress_security_groups" {
 }
 
 resource "aws_security_group_rule" "slave_ingress_cidr_blocks" {
-  count             = module.this.enabled && length(var.slave_allowed_cidr_blocks) > 0 ? 1 : 0
+  count             = module.this.enabled && length(var.slave_allowed_cidr_blocks) > 0 && var.use_existing_additional_slave_security_group == false ? 1 : 0
   description       = "Allow inbound traffic from CIDR blocks"
   type              = "ingress"
   from_port         = 0
@@ -238,7 +238,7 @@ resource "aws_security_group_rule" "slave_ingress_cidr_blocks" {
 }
 
 resource "aws_security_group_rule" "slave_egress" {
-  count             = module.this.enabled ? 1 : 0
+  count             = module.this.enabled && var.use_existing_additional_slave_security_group == false ? 1 : 0
   description       = "Allow all egress traffic"
   type              = "egress"
   from_port         = 0
@@ -373,12 +373,12 @@ resource "aws_emr_cluster" "default" {
   ec2_attributes {
     key_name                          = var.key_name
     subnet_id                         = var.subnet_id
-    emr_managed_master_security_group = join("", aws_security_group.managed_master.*.id)
-    emr_managed_slave_security_group  = join("", aws_security_group.managed_slave.*.id)
-    service_access_security_group     = var.subnet_type == "private" ? join("", aws_security_group.managed_service_access.*.id) : null
+    emr_managed_master_security_group = var.use_existing_managed_master_security_group == false ? join("", aws_security_group.managed_master.*.id) : var.managed_master_security_group
+    emr_managed_slave_security_group  = var.use_existing_managed_slave_security_group == false ? join("", aws_security_group.managed_slave.*.id) : var.managed_slave_security_group
+    service_access_security_group     = var.use_existing_service_access_security_group == false && var.subnet_type == "private" ? join("", aws_security_group.managed_service_access.*.id) : var.service_access_security_group
     instance_profile                  = join("", aws_iam_instance_profile.ec2.*.arn)
-    additional_master_security_groups = join("", aws_security_group.master.*.id)
-    additional_slave_security_groups  = join("", aws_security_group.slave.*.id)
+    additional_master_security_groups = var.use_existing_additional_master_security_group == false ? join("", aws_security_group.master.*.id) : var.additional_master_security_group
+    additional_slave_security_groups  = var.use_existing_additional_slave_security_group == false ? join("", aws_security_group.slave.*.id) : var.additional_slave_security_group
   }
 
   termination_protection            = var.termination_protection
