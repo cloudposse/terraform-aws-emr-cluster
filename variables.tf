@@ -30,7 +30,7 @@ variable "use_existing_additional_slave_security_group" {
 
 variable "use_existing_service_access_security_group" {
   type        = bool
-  description = "If set to `true`, will use variable `additional_slave_security_group` using an existing security group that was created outside of this module"
+  description = "If set to `true`, will use variable `service_access_security_group` using an existing security group that was created outside of this module"
   default     = false
 }
 
