@@ -86,7 +86,9 @@ provider "aws" {
 }
 
 module "vpc" {
-  source     = "git::https://github.com/cloudposse/terraform-aws-vpc.git?ref=master"
+  source = "cloudposse/vpc/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
   namespace  = var.namespace
   stage      = var.stage
   name       = var.name
@@ -94,7 +96,9 @@ module "vpc" {
 }
 
 module "subnets" {
-  source               = "git::https://github.com/cloudposse/terraform-aws-dynamic-subnets.git?ref=master"
+  source = "cloudposse/dynamic-subnets/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
   availability_zones   = var.availability_zones
   namespace            = var.namespace
   stage                = var.stage
@@ -107,7 +111,9 @@ module "subnets" {
 }
 
 module "s3_log_storage" {
-  source        = "git::https://github.com/cloudposse/terraform-aws-s3-log-storage.git?ref=master"
+  source = "cloudposse/s3-log-storage/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
   region        = var.region
   namespace     = var.namespace
   stage         = var.stage
@@ -117,7 +123,9 @@ module "s3_log_storage" {
 }
 
 module "aws_key_pair" {
-  source              = "git::https://github.com/cloudposse/terraform-aws-key-pair.git?ref=master"
+  source = "cloudposse/key-pair/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
   namespace           = var.namespace
   stage               = var.stage
   name                = var.name
@@ -127,7 +135,9 @@ module "aws_key_pair" {
 }
 
 module "emr_cluster" {
-  source                                         = "git::https://github.com/cloudposse/terraform-aws-emr-cluster.git?ref=master"
+  source = "cloudposse/emr-cluster/aws"
+  # Cloud Posse recommends pinning every module to a specific version
+  # version     = "x.x.x"
   namespace                                      = var.namespace
   stage                                          = var.stage
   name                                           = var.name
@@ -181,7 +191,7 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.0 |
+| terraform | >= 0.12.26 |
 | aws | >= 2.0 |
 | local | >= 1.3 |
 | null | >= 2.0 |

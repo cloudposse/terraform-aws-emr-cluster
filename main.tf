@@ -1,60 +1,70 @@
 module "label_emr" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("emr")))
   context    = module.this.context
 }
 
 module "label_ec2" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("ec2")))
   context    = module.this.context
 }
 
 module "label_ec2_autoscaling" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("ec2", "autoscaling")))
   context    = module.this.context
 }
 
 module "label_master" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("master")))
   context    = module.this.context
 }
 
 module "label_slave" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("slave")))
   context    = module.this.context
 }
 
 module "label_core" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("core")))
   context    = module.this.context
 }
 
 module "label_task" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   enabled    = module.this.enabled && var.create_task_instance_group
   attributes = compact(concat(module.this.attributes, list("task")))
   context    = module.this.context
 }
 
 module "label_master_managed" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("master", "managed")))
   context    = module.this.context
 }
 
 module "label_slave_managed" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("slave", "managed")))
   context    = module.this.context
 }
 
 module "label_service_managed" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
+  source     = "cloudposse/label/null"
+  version    = "0.19.2"
   attributes = compact(concat(module.this.attributes, list("service", "managed")))
   context    = module.this.context
 }
@@ -497,7 +507,8 @@ resource "aws_emr_instance_group" "task" {
 }
 
 module "dns_master" {
-  source = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-hostname.git?ref=tags/0.7.0"
+  source  = "cloudposse/route53-cluster-hostname/aws"
+  version = "0.7.0"
 
   enabled  = module.this.enabled && var.zone_id != null && var.zone_id != "" ? true : false
   dns_name = var.master_dns_name != null && var.master_dns_name != "" ? var.master_dns_name : "emr-master-${module.this.name}"
