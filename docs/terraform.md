@@ -15,6 +15,37 @@
 |------|---------|
 | aws | >= 2.0 |
 
+## Modules
+
+| Name | Source | Version |
+|------|--------|---------|
+| dns_master | cloudposse/route53-cluster-hostname/aws | 0.12.0 |
+| label_core | cloudposse/label/null | 0.24.1 |
+| label_ec2 | cloudposse/label/null | 0.24.1 |
+| label_ec2_autoscaling | cloudposse/label/null | 0.24.1 |
+| label_emr | cloudposse/label/null | 0.24.1 |
+| label_master | cloudposse/label/null | 0.24.1 |
+| label_master_managed | cloudposse/label/null | 0.24.1 |
+| label_service_managed | cloudposse/label/null | 0.24.1 |
+| label_slave | cloudposse/label/null | 0.24.1 |
+| label_slave_managed | cloudposse/label/null | 0.24.1 |
+| label_task | cloudposse/label/null | 0.24.1 |
+| this | cloudposse/label/null | 0.24.1 |
+
+## Resources
+
+| Name |
+|------|
+| [aws_emr_cluster](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/emr_cluster) |
+| [aws_emr_instance_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/emr_instance_group) |
+| [aws_iam_instance_profile](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) |
+| [aws_iam_policy_document](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) |
+| [aws_iam_role](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role) |
+| [aws_iam_role_policy_attachment](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) |
+| [aws_security_group](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) |
+| [aws_security_group_rule](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group_rule) |
+| [aws_vpc_endpoint](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) |
+
 ## Inputs
 
 | Name | Description | Type | Default | Required |
@@ -115,5 +146,4 @@
 | master\_public\_dns | Master public DNS |
 | master\_security\_group\_id | Master security group ID |
 | slave\_security\_group\_id | Slave security group ID |
-
 <!-- markdownlint-restore -->
