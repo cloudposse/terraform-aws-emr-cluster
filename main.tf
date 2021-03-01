@@ -282,6 +282,8 @@ resource "aws_iam_role" "emr" {
   count              = module.this.enabled ? 1 : 0
   name               = module.label_emr.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+
+  tags = module.this.tags
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
@@ -317,6 +319,8 @@ resource "aws_iam_role" "ec2" {
   count              = module.this.enabled ? 1 : 0
   name               = module.label_ec2.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
+
+  tags = module.this.tags
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
@@ -341,6 +345,8 @@ resource "aws_iam_role" "ec2_autoscaling" {
   count              = module.this.enabled ? 1 : 0
   name               = module.label_ec2_autoscaling.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+
+  tags = module.this.tags
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
