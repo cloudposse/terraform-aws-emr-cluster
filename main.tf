@@ -1,70 +1,60 @@
 module "label_emr" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("emr")))
   context    = module.this.context
 }
 
 module "label_ec2" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("ec2")))
   context    = module.this.context
 }
 
 module "label_ec2_autoscaling" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("ec2", "autoscaling")))
   context    = module.this.context
 }
 
 module "label_master" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("master")))
   context    = module.this.context
 }
 
 module "label_slave" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("slave")))
   context    = module.this.context
 }
 
 module "label_core" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("core")))
   context    = module.this.context
 }
 
 module "label_task" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   enabled    = module.this.enabled && var.create_task_instance_group
   attributes = compact(concat(module.this.attributes, list("task")))
   context    = module.this.context
 }
 
 module "label_master_managed" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("master", "managed")))
   context    = module.this.context
 }
 
 module "label_slave_managed" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("slave", "managed")))
   context    = module.this.context
 }
 
 module "label_service_managed" {
-  source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  source     = "../terraform-null-label"
   attributes = compact(concat(module.this.attributes, list("service", "managed")))
   context    = module.this.context
 }
@@ -327,7 +317,7 @@ resource "aws_iam_role" "ec2" {
 resource "aws_iam_role_policy_attachment" "ec2" {
   count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+  policy_arn = var.use_existing_emr_ec2_iam_policy == false ? "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role" : var.emr_ec2_iam_policy
 }
 
 resource "aws_iam_instance_profile" "ec2" {
@@ -512,6 +502,7 @@ resource "aws_emr_instance_group" "task" {
   autoscaling_policy = var.task_instance_group_autoscaling_policy
 }
 
+/*
 module "dns_master" {
   source  = "cloudposse/route53-cluster-hostname/aws"
   version = "0.12.0"
@@ -523,6 +514,7 @@ module "dns_master" {
 
   context = module.this.context
 }
+*/
 
 # https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-clusters-in-a-vpc.html

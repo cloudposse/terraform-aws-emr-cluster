@@ -130,6 +130,17 @@ variable "custom_ami_id" {
   default     = null
 }
 
+variable "use_existing_emr_ec2_iam_policy" {
+  type = bool
+  description = "Use a custom EMR EC2 policy on EMR nodes"
+  default = true
+}
+
+variable "emr_ec2_iam_policy" {
+  type = string
+  description = "When enabling `use_existing_emr_ec2_policy`, this is the ARN of an existing IAM policy for EMR EC2 nodes to use"
+}
+
 variable "visible_to_all_users" {
   type        = bool
   description = "Whether the job flow is visible to all IAM users of the AWS account associated with the job flow"
