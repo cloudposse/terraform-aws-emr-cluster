@@ -438,7 +438,7 @@ variable "ec2_autoscaling_role_permissions_boundary" {
 }
 
 variable "govcloud" {
-  type        = boolean
+  type        = bool
   description = "Adjust ARNs for use in AWS GovCloud."
   default     = false
 }
