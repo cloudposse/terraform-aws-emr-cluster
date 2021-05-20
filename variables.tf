@@ -436,3 +436,9 @@ variable "ec2_autoscaling_role_permissions_boundary" {
   description = "The Permissions Boundary ARN to apply to the EC2 Autoscaling Role."
   default     = ""
 }
+
+variable "govcloud" {
+  type        = boolean
+  description = "Adjust ARNs for use in AWS GovCloud."
+  default     = false
+}

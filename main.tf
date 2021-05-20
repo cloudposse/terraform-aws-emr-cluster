@@ -291,7 +291,7 @@ resource "aws_iam_role" "emr" {
 resource "aws_iam_role_policy_attachment" "emr" {
   count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.emr.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
+  policy_arn = "arn:aws${var.govcloud ? "-us-gov" : ""}:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
 }
 
 /*
@@ -329,7 +329,7 @@ resource "aws_iam_role" "ec2" {
 resource "aws_iam_role_policy_attachment" "ec2" {
   count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+  policy_arn = "arn:aws${var.govcloud ? "-us-gov" : ""}:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
 resource "aws_iam_instance_profile" "ec2" {
@@ -356,7 +356,7 @@ resource "aws_iam_role" "ec2_autoscaling" {
 resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
   count      = module.this.enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2_autoscaling.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
+  policy_arn = "arn:aws${var.govcloud ? "-us-gov" : ""}:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
 
 # This dummy bootstrap action is needed because of terraform bug https://github.com/terraform-providers/terraform-provider-aws/issues/12683
