@@ -296,8 +296,12 @@ Available targets:
 | <a name="input_custom_ami_id"></a> [custom\_ami\_id](#input\_custom\_ami\_id) | A custom Amazon Linux AMI for the cluster (instead of an EMR-owned AMI). Available in Amazon EMR version 5.7.0 and later | `string` | `null` | no |
 | <a name="input_delimiter"></a> [delimiter](#input\_delimiter) | Delimiter to be used between `namespace`, `environment`, `stage`, `name` and `attributes`.<br>Defaults to `-` (hyphen). Set to `""` to use no delimiter at all. | `string` | `null` | no |
 | <a name="input_ebs_root_volume_size"></a> [ebs\_root\_volume\_size](#input\_ebs\_root\_volume\_size) | Size in GiB of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later | `number` | `10` | no |
+| <a name="input_ec2_autoscaling_role_permissions_boundary"></a> [ec2\_autoscaling\_role\_permissions\_boundary](#input\_ec2\_autoscaling\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EC2 Autoscaling Role. | `string` | `""` | no |
+| <a name="input_ec2_role_permissions_boundary"></a> [ec2\_role\_permissions\_boundary](#input\_ec2\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EC2 Role. | `string` | `""` | no |
+| <a name="input_emr_role_permissions_boundary"></a> [emr\_role\_permissions\_boundary](#input\_emr\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EMR Role. | `string` | `""` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment, e.g. 'uw2', 'us-west-2', OR 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
+| <a name="input_govcloud"></a> [govcloud](#input\_govcloud) | Adjust ARNs for use in AWS GovCloud. | `bool` | `false` | no |
 | <a name="input_id_length_limit"></a> [id\_length\_limit](#input\_id\_length\_limit) | Limit `id` to this many characters (minimum 6).<br>Set to `0` for unlimited length.<br>Set to `null` for default, which is `0`.<br>Does not affect `id_full`. | `number` | `null` | no |
 | <a name="input_keep_job_flow_alive_when_no_steps"></a> [keep\_job\_flow\_alive\_when\_no\_steps](#input\_keep\_job\_flow\_alive\_when\_no\_steps) | Switch on/off run cluster with no steps or when all steps are complete | `bool` | `true` | no |
 | <a name="input_kerberos_ad_domain_join_password"></a> [kerberos\_ad\_domain\_join\_password](#input\_kerberos\_ad\_domain\_join\_password) | The Active Directory password for ad\_domain\_join\_user. Terraform cannot perform drift detection of this configuration. | `string` | `null` | no |
@@ -381,6 +385,7 @@ Like this project? Please give it a ★ on [our GitHub](https://github.com/cloud
 Are you using this project or any of our other projects? Consider [leaving a testimonial][testimonial]. =)
 
 
+
 ## Related Projects
 
 Check out these related projects.
@@ -388,8 +393,6 @@ Check out these related projects.
 - [terraform-aws-rds-cluster](https://github.com/cloudposse/terraform-aws-rds-cluster) - Terraform module to provision an RDS Aurora cluster for MySQL or Postgres
 - [terraform-aws-rds](https://github.com/cloudposse/terraform-aws-rds) - Terraform module to provision AWS RDS instances
 - [terraform-aws-rds-cloudwatch-sns-alarms](https://github.com/cloudposse/terraform-aws-rds-cloudwatch-sns-alarms) - Terraform module that configures important RDS alerts using CloudWatch and sends them to an SNS topic
-
-
 
 ## Help
 
