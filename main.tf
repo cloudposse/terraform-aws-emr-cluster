@@ -1,3 +1,5 @@
+data "aws_partition" "current" {}
+
 module "label_emr" {
   source     = "cloudposse/label/null"
   version    = "0.24.1"
@@ -279,9 +281,10 @@ data "aws_iam_policy_document" "assume_role_emr" {
 }
 
 resource "aws_iam_role" "emr" {
-  count              = module.this.enabled && var.service_role_enabled ? 1 : 0
-  name               = module.label_emr.id
-  assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+  count                = module.this.enabled && var.service_role_enabled ? 1 : 0
+  name                 = module.label_emr.id
+  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+  permissions_boundary = var.emr_role_permissions_boundary
 
   tags = module.this.tags
 }
@@ -290,7 +293,7 @@ resource "aws_iam_role" "emr" {
 resource "aws_iam_role_policy_attachment" "emr" {
   count      = module.this.enabled && var.service_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.emr.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
 }
 
 /*
@@ -316,9 +319,10 @@ data "aws_iam_policy_document" "assume_role_ec2" {
 }
 
 resource "aws_iam_role" "ec2" {
-  count              = module.this.enabled && var.ec2_role_enabled ? 1 : 0
-  name               = module.label_ec2.id
-  assume_role_policy = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
+  count                = module.this.enabled && var.ec2_role_enabled ? 1 : 0
+  name                 = module.label_ec2.id
+  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
+  permissions_boundary = var.ec2_role_permissions_boundary
 
   tags = module.this.tags
 }
@@ -327,7 +331,7 @@ resource "aws_iam_role" "ec2" {
 resource "aws_iam_role_policy_attachment" "ec2" {
   count      = module.this.enabled && var.ec2_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
 resource "aws_iam_instance_profile" "ec2" {
@@ -342,9 +346,10 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 resource "aws_iam_role" "ec2_autoscaling" {
-  count              = module.this.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
-  name               = module.label_ec2_autoscaling.id
-  assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+  count                = module.this.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
+  name                 = module.label_ec2_autoscaling.id
+  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+  permissions_boundary = var.ec2_autoscaling_role_permissions_boundary
 
   tags = module.this.tags
 }
@@ -353,7 +358,7 @@ resource "aws_iam_role" "ec2_autoscaling" {
 resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
   count      = module.this.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2_autoscaling.*.name)
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
 
 # This dummy bootstrap action is needed because of terraform bug https://github.com/terraform-providers/terraform-provider-aws/issues/12683

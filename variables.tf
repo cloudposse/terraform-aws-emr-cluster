@@ -454,3 +454,21 @@ variable "steps" {
   description = "List of steps to run when creating the cluster."
   default     = []
 }
+
+variable "emr_role_permissions_boundary" {
+  type        = string
+  description = "The Permissions Boundary ARN to apply to the EMR Role."
+  default     = ""
+}
+
+variable "ec2_role_permissions_boundary" {
+  type        = string
+  description = "The Permissions Boundary ARN to apply to the EC2 Role."
+  default     = ""
+}
+
+variable "ec2_autoscaling_role_permissions_boundary" {
+  type        = string
+  description = "The Permissions Boundary ARN to apply to the EC2 Autoscaling Role."
+  default     = ""
+}

@@ -63,6 +63,7 @@
 | [aws_vpc_endpoint.vpc_endpoint_s3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
 | [aws_iam_policy_document.assume_role_ec2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
 | [aws_iam_policy_document.assume_role_emr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/iam_policy_document) | data source |
+| [aws_partition.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/partition) | data source |
 
 ## Inputs
 
@@ -92,7 +93,10 @@
 | <a name="input_descriptor_formats"></a> [descriptor\_formats](#input\_descriptor\_formats) | Describe additional descriptors to be output in the `descriptors` output map.<br>Map of maps. Keys are names of descriptors. Values are maps of the form<br>`{<br>   format = string<br>   labels = list(string)<br>}`<br>(Type is `any` so the map values can later be enhanced to provide additional options.)<br>`format` is a Terraform format string to be passed to the `format()` function.<br>`labels` is a list of labels, in order, to pass to `format()` function.<br>Label values will be normalized before being passed to `format()` so they will be<br>identical to how they appear in `id`.<br>Default is `{}` (`descriptors` output will be empty). | `any` | `{}` | no |
 | <a name="input_ebs_root_volume_size"></a> [ebs\_root\_volume\_size](#input\_ebs\_root\_volume\_size) | Size in GiB of the EBS root device volume of the Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later | `number` | `10` | no |
 | <a name="input_ec2_autoscaling_role_enabled"></a> [ec2\_autoscaling\_role\_enabled](#input\_ec2\_autoscaling\_role\_enabled) | If set to `false`, will use `existing_ec2_autoscaling_role_arn` for an existing EC2 autoscaling IAM role that was created outside of this module | `bool` | `true` | no |
+| <a name="input_ec2_autoscaling_role_permissions_boundary"></a> [ec2\_autoscaling\_role\_permissions\_boundary](#input\_ec2\_autoscaling\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EC2 Autoscaling Role. | `string` | `""` | no |
 | <a name="input_ec2_role_enabled"></a> [ec2\_role\_enabled](#input\_ec2\_role\_enabled) | If set to `false`, will use `existing_ec2_instance_profile_arn` for an existing EC2 IAM role that was created outside of this module | `bool` | `true` | no |
+| <a name="input_ec2_role_permissions_boundary"></a> [ec2\_role\_permissions\_boundary](#input\_ec2\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EC2 Role. | `string` | `""` | no |
+| <a name="input_emr_role_permissions_boundary"></a> [emr\_role\_permissions\_boundary](#input\_emr\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EMR Role. | `string` | `""` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
 | <a name="input_existing_ec2_autoscaling_role_arn"></a> [existing\_ec2\_autoscaling\_role\_arn](#input\_existing\_ec2\_autoscaling\_role\_arn) | ARN of an existing EC2 autoscaling role to attach to the cluster | `string` | `""` | no |
