@@ -264,7 +264,7 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 data "aws_iam_policy_document" "assume_role_emr" {
-  count = module.this.enabled && var.use_custom_service_role == false ? 1 : 0
+  count = module.this.enabled && var.service_role_enabled ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -279,7 +279,7 @@ data "aws_iam_policy_document" "assume_role_emr" {
 }
 
 resource "aws_iam_role" "emr" {
-  count              = module.this.enabled && var.use_custom_service_role == false ? 1 : 0
+  count              = module.this.enabled && var.service_role_enabled ? 1 : 0
   name               = module.label_emr.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
 
@@ -288,7 +288,7 @@ resource "aws_iam_role" "emr" {
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role_policy_attachment" "emr" {
-  count      = module.this.enabled && var.use_custom_service_role == false ? 1 : 0
+  count      = module.this.enabled && var.service_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.emr.*.name)
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
 }
@@ -301,7 +301,7 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 data "aws_iam_policy_document" "assume_role_ec2" {
-  count = module.this.enabled && var.use_custom_ec2_role == false ? 1 : 0
+  count = module.this.enabled && var.ec2_role_enabled ? 1 : 0
 
   statement {
     effect = "Allow"
@@ -316,7 +316,7 @@ data "aws_iam_policy_document" "assume_role_ec2" {
 }
 
 resource "aws_iam_role" "ec2" {
-  count              = module.this.enabled && var.use_custom_ec2_role == false ? 1 : 0
+  count              = module.this.enabled && var.ec2_role_enabled ? 1 : 0
   name               = module.label_ec2.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
 
@@ -325,13 +325,13 @@ resource "aws_iam_role" "ec2" {
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role_policy_attachment" "ec2" {
-  count      = module.this.enabled && var.use_custom_ec2_role == false ? 1 : 0
+  count      = module.this.enabled && var.ec2_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2.*.name)
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
 resource "aws_iam_instance_profile" "ec2" {
-  count = module.this.enabled && var.use_custom_ec2_role == false ? 1 : 0
+  count = module.this.enabled && var.ec2_role_enabled ? 1 : 0
   name  = join("", aws_iam_role.ec2.*.name)
   role  = join("", aws_iam_role.ec2.*.name)
 }
@@ -342,7 +342,7 @@ This role is required for all clusters.
 https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 */
 resource "aws_iam_role" "ec2_autoscaling" {
-  count              = module.this.enabled && var.use_custom_ec2_autoscaling_role == false ? 1 : 0
+  count              = module.this.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
   name               = module.label_ec2_autoscaling.id
   assume_role_policy = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
 
@@ -351,7 +351,7 @@ resource "aws_iam_role" "ec2_autoscaling" {
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-iam-roles.html
 resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
-  count      = module.this.enabled && var.use_custom_ec2_autoscaling_role == false ? 1 : 0
+  count      = module.this.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.ec2_autoscaling.*.name)
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
@@ -392,7 +392,7 @@ resource "aws_emr_cluster" "default" {
     emr_managed_master_security_group = var.use_existing_managed_master_security_group == false ? join("", aws_security_group.managed_master.*.id) : var.managed_master_security_group
     emr_managed_slave_security_group  = var.use_existing_managed_slave_security_group == false ? join("", aws_security_group.managed_slave.*.id) : var.managed_slave_security_group
     service_access_security_group     = var.use_existing_service_access_security_group == false && var.subnet_type == "private" ? join("", aws_security_group.managed_service_access.*.id) : var.service_access_security_group
-    instance_profile                  = var.use_custom_ec2_role == false ? join("", aws_iam_instance_profile.ec2.*.arn) : var.custom_ec2_instance_profile
+    instance_profile                  = var.ec2_role_enabled ? join("", aws_iam_instance_profile.ec2.*.arn) : var.existing_ec2_instance_profile_arn
     additional_master_security_groups = var.use_existing_additional_master_security_group == false ? join("", aws_security_group.master.*.id) : var.additional_master_security_group
     additional_slave_security_groups  = var.use_existing_additional_slave_security_group == false ? join("", aws_security_group.slave.*.id) : var.additional_slave_security_group
   }
@@ -479,8 +479,8 @@ resource "aws_emr_cluster" "default" {
 
   log_uri = var.log_uri
 
-  service_role     = var.use_custom_service_role == false ? join("", aws_iam_role.emr.*.arn) : var.custom_service_role
-  autoscaling_role = var.use_custom_ec2_autoscaling_role == false ? join("", aws_iam_role.ec2_autoscaling.*.arn) : var.custom_ec2_autoscaling_role
+  service_role     = var.service_role_enabled ? join("", aws_iam_role.emr.*.arn) : var.existing_service_role_arn
+  autoscaling_role = var.ec2_autoscaling_role_enabled ? join("", aws_iam_role.ec2_autoscaling.*.arn) : var.existing_ec2_autoscaling_role_arn
 
   tags = module.this.tags
 

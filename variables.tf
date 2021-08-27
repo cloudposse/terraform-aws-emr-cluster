@@ -130,45 +130,45 @@ variable "custom_ami_id" {
   default     = null
 }
 
-variable "use_custom_ec2_role" {
+variable "ec2_role_enabled" {
   type        = bool
-  description = "If set to `true`, will use variable `custom_ec2_role` & `custom_ec2_instance_profile` using an existing IAM role & instance profile that was created outside of this module"
-  default     = false
+  description = "If set to `false`, will use variable `existing_ec2_role_arn` & `existing_ec2_instance_profile_arn` using an existing IAM role & instance profile that was created outside of this module"
+  default     = true
 }
 
-variable "use_custom_ec2_autoscaling_role" {
+variable "ec2_autoscaling_role_enabled" {
   type        = bool
-  description = "If set to `true`, will use variable `custom_ec2_autoscaling_role` using an existing IAM role that was created outside of this module"
-  default     = false
+  description = "If set to `false`, will use variable `existing_ec2_autoscaling_role_arn` using an existing IAM role that was created outside of this module"
+  default     = true
 }
 
-variable "use_custom_service_role" {
+variable "service_role_enabled" {
   type        = bool
-  description = "If set to `true`, will use variable `custom_service_role` using an existing IAM role that was created outside of this module"
-  default     = false
+  description = "If set to `false`, will use variable `existing_service_role_arn` using an existing IAM role that was created outside of this module"
+  default     = true
 }
 
-variable "custom_ec2_role" {
+variable "existing_ec2_role_arn" {
   type        = string
-  description = "ARN of your custom ec2 role to attach to the cluster"
+  description = "ARN of your existing ec2 role to attach to the cluster"
   default     = ""
 }
 
-variable "custom_ec2_instance_profile" {
+variable "existing_ec2_instance_profile_arn" {
   type        = string
-  description = "ARN of your custom ec2 instance profile created from `custom_ec2_role`"
+  description = "ARN of your existing ec2 instance profile created from `existing_ec2_role_arn`"
   default     = ""
 }
 
-variable "custom_ec2_autoscaling_role" {
+variable "existing_ec2_autoscaling_role_arn" {
   type        = string
-  description = "ARN of your custom ec2 autoscaling role to attach to the cluster"
+  description = "ARN of your existing ec2 autoscaling role to attach to the cluster"
   default     = ""
 }
 
-variable "custom_service_role" {
+variable "existing_service_role_arn" {
   type        = string
-  description = "ARN of your custom EMR service role to attach to the cluster"
+  description = "ARN of your existing EMR service role to attach to the cluster"
   default     = ""
 }
 
