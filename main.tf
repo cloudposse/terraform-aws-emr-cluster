@@ -1,3 +1,5 @@
+data "aws_partition" "current" {}
+
 module "label_emr" {
   source     = "cloudposse/label/null"
   version    = "0.24.1"
@@ -291,7 +293,7 @@ resource "aws_iam_role" "emr" {
 resource "aws_iam_role_policy_attachment" "emr" {
   count      = module.this.enabled && var.service_role_enabled ? 1 : 0
   role       = join("", aws_iam_role.emr.*.name)
-  policy_arn = "arn:aws${var.govcloud ? "-us-gov" : ""}:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
+  policy_arn = "arn:${data.aws_partition.current.partition}:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
 }
 
 /*
