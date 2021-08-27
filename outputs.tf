@@ -29,6 +29,6 @@ output "master_host" {
 }
 
 output "ec2_role" {
-  value       = join("", aws_iam_role.ec2.*.name)
+  value       = var.ec2_role_enabled ? join("", aws_iam_role.ec2.*.name) : null
   description = "Role name of EMR EC2 instances so users can attach more policies"
 }
