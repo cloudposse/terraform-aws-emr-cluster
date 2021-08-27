@@ -132,43 +132,37 @@ variable "custom_ami_id" {
 
 variable "ec2_role_enabled" {
   type        = bool
-  description = "If set to `false`, will use variable `existing_ec2_role_arn` & `existing_ec2_instance_profile_arn` using an existing IAM role & instance profile that was created outside of this module"
+  description = "If set to `false`, will use `existing_ec2_instance_profile_arn` for an existing EC2 IAM role that was created outside of this module"
   default     = true
 }
 
 variable "ec2_autoscaling_role_enabled" {
   type        = bool
-  description = "If set to `false`, will use variable `existing_ec2_autoscaling_role_arn` using an existing IAM role that was created outside of this module"
+  description = "If set to `false`, will use `existing_ec2_autoscaling_role_arn` for an existing EC2 autoscaling IAM role that was created outside of this module"
   default     = true
 }
 
 variable "service_role_enabled" {
   type        = bool
-  description = "If set to `false`, will use variable `existing_service_role_arn` using an existing IAM role that was created outside of this module"
+  description = "If set to `false`, will use `existing_service_role_arn` for an existing IAM role that was created outside of this module"
   default     = true
-}
-
-variable "existing_ec2_role_arn" {
-  type        = string
-  description = "ARN of your existing ec2 role to attach to the cluster"
-  default     = ""
 }
 
 variable "existing_ec2_instance_profile_arn" {
   type        = string
-  description = "ARN of your existing ec2 instance profile created from `existing_ec2_role_arn`"
+  description = "ARN of an existing EC2 instance profile"
   default     = ""
 }
 
 variable "existing_ec2_autoscaling_role_arn" {
   type        = string
-  description = "ARN of your existing ec2 autoscaling role to attach to the cluster"
+  description = "ARN of an existing EC2 autoscaling role to attach to the cluster"
   default     = ""
 }
 
 variable "existing_service_role_arn" {
   type        = string
-  description = "ARN of your existing EMR service role to attach to the cluster"
+  description = "ARN of an existing EMR service role to attach to the cluster"
   default     = ""
 }
 
