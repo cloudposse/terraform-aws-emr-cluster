@@ -130,6 +130,42 @@ variable "custom_ami_id" {
   default     = null
 }
 
+variable "ec2_role_enabled" {
+  type        = bool
+  description = "If set to `false`, will use `existing_ec2_instance_profile_arn` for an existing EC2 IAM role that was created outside of this module"
+  default     = true
+}
+
+variable "ec2_autoscaling_role_enabled" {
+  type        = bool
+  description = "If set to `false`, will use `existing_ec2_autoscaling_role_arn` for an existing EC2 autoscaling IAM role that was created outside of this module"
+  default     = true
+}
+
+variable "service_role_enabled" {
+  type        = bool
+  description = "If set to `false`, will use `existing_service_role_arn` for an existing IAM role that was created outside of this module"
+  default     = true
+}
+
+variable "existing_ec2_instance_profile_arn" {
+  type        = string
+  description = "ARN of an existing EC2 instance profile"
+  default     = ""
+}
+
+variable "existing_ec2_autoscaling_role_arn" {
+  type        = string
+  description = "ARN of an existing EC2 autoscaling role to attach to the cluster"
+  default     = ""
+}
+
+variable "existing_service_role_arn" {
+  type        = string
+  description = "ARN of an existing EMR service role to attach to the cluster"
+  default     = ""
+}
+
 variable "visible_to_all_users" {
   type        = bool
   description = "Whether the job flow is visible to all IAM users of the AWS account associated with the job flow"
