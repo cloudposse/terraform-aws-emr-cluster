@@ -2,49 +2,49 @@ data "aws_partition" "current" {}
 
 module "label_emr" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["emr"])))
   context    = module.this.context
 }
 
 module "label_ec2" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["ec2"])))
   context    = module.this.context
 }
 
 module "label_ec2_autoscaling" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["ec2", "autoscaling"])))
   context    = module.this.context
 }
 
 module "label_master" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["master"])))
   context    = module.this.context
 }
 
 module "label_slave" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["slave"])))
   context    = module.this.context
 }
 
 module "label_core" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["core"])))
   context    = module.this.context
 }
 
 module "label_task" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   enabled    = module.this.enabled && var.create_task_instance_group
   attributes = compact(concat(module.this.attributes, tolist(["task"])))
   context    = module.this.context
@@ -52,21 +52,21 @@ module "label_task" {
 
 module "label_master_managed" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["master", "managed"])))
   context    = module.this.context
 }
 
 module "label_slave_managed" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["slave", "managed"])))
   context    = module.this.context
 }
 
 module "label_service_managed" {
   source     = "cloudposse/label/null"
-  version    = "0.24.1"
+  version    = "0.25.0"
   attributes = compact(concat(module.this.attributes, tolist(["service", "managed"])))
   context    = module.this.context
 }
