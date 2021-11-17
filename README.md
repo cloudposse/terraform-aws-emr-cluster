@@ -222,7 +222,7 @@ Available targets:
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_dns_master"></a> [dns\_master](#module\_dns\_master) | cloudposse/route53-cluster-hostname/aws | 0.12.0 |
+| <a name="module_dns_master"></a> [dns\_master](#module\_dns\_master) | cloudposse/route53-cluster-hostname/aws | 0.12.2 |
 | <a name="module_label_core"></a> [label\_core](#module\_label\_core) | cloudposse/label/null | 0.25.0 |
 | <a name="module_label_ec2"></a> [label\_ec2](#module\_label\_ec2) | cloudposse/label/null | 0.25.0 |
 | <a name="module_label_ec2_autoscaling"></a> [label\_ec2\_autoscaling](#module\_label\_ec2\_autoscaling) | cloudposse/label/null | 0.25.0 |
