@@ -519,7 +519,7 @@ resource "aws_emr_instance_group" "task" {
 
 module "dns_master" {
   source  = "cloudposse/route53-cluster-hostname/aws"
-  version = "0.12.0"
+  version = "0.12.2"
 
   enabled  = module.this.enabled && var.zone_id != null && var.zone_id != "" ? true : false
   dns_name = var.master_dns_name != null && var.master_dns_name != "" ? var.master_dns_name : "emr-master-${module.this.name}"
