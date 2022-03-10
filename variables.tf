@@ -37,44 +37,44 @@ variable "use_existing_service_access_security_group" {
 variable "managed_master_security_group" {
   type        = string
   default     = ""
-  description = "The name of the existing managed security group that will be used for EMR master node. If empty, a new security group will be created"
+  description = "The id of the existing managed security group that will be used for EMR master node. If empty, a new security group will be created"
 }
 
 variable "managed_slave_security_group" {
   type        = string
   default     = ""
-  description = "The name of the existing managed security group that will be used for EMR core & task nodes. If empty, a new security group will be created"
+  description = "The id of the existing managed security group that will be used for EMR core & task nodes. If empty, a new security group will be created"
 }
 
 variable "additional_master_security_group" {
   type        = string
   default     = ""
-  description = "The name of the existing additional security group that will be used for EMR master node. If empty, a new security group will be created"
+  description = "The id of the existing additional security group that will be used for EMR master node. If empty, a new security group will be created"
 }
 
 variable "additional_slave_security_group" {
   type        = string
   default     = ""
-  description = "The name of the existing additional security group that will be used for EMR core & task nodes. If empty, a new security group will be created"
+  description = "The id of the existing additional security group that will be used for EMR core & task nodes. If empty, a new security group will be created"
 }
 
 variable "service_access_security_group" {
   type        = string
   default     = ""
-  description = "The name of the existing additional security group that will be used for EMR core & task nodes. If empty, a new security group will be created"
+  description = "The id of the existing additional security group that will be used for EMR core & task nodes. If empty, a new security group will be created"
 }
 
 
 variable "master_allowed_security_groups" {
   type        = list(string)
   default     = []
-  description = "List of security groups to be allowed to connect to the master instances"
+  description = "List of security group ids to be allowed to connect to the master instances"
 }
 
 variable "slave_allowed_security_groups" {
   type        = list(string)
   default     = []
-  description = "List of security groups to be allowed to connect to the slave instances"
+  description = "List of security group ids to be allowed to connect to the slave instances"
 }
 
 variable "master_allowed_cidr_blocks" {
