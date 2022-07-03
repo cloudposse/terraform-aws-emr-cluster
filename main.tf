@@ -338,6 +338,7 @@ resource "aws_iam_instance_profile" "ec2" {
   count = module.this.enabled && var.ec2_role_enabled ? 1 : 0
   name  = join("", aws_iam_role.ec2.*.name)
   role  = join("", aws_iam_role.ec2.*.name)
+  tags  = module.this.tags
 }
 
 /*
