@@ -472,3 +472,9 @@ variable "ec2_autoscaling_role_permissions_boundary" {
   description = "The Permissions Boundary ARN to apply to the EC2 Autoscaling Role."
   default     = ""
 }
+
+variable "auto_termination_idle_timeout" {
+  type        = string
+  description = "Auto termination policy idle timeout in seconds (60 - 604800 supported)"
+  default     = null
+}

@@ -494,6 +494,13 @@ resource "aws_emr_cluster" "default" {
   lifecycle {
     ignore_changes = [kerberos_attributes, step, configurations_json]
   }
+
+  dynamic auto_termination_policy {
+    for_each = var.auto_termination_idle_timeout ? [var.auto_termination_idle_timeout] : []
+    content {
+      idle_timeout = var.auto_termination_idle_timeout
+    }
+  }
 }
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-master-core-task-nodes.html
