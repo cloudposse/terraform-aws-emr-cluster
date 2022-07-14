@@ -496,7 +496,7 @@ resource "aws_emr_cluster" "default" {
   }
 
   dynamic auto_termination_policy {
-    for_each = var.auto_termination_idle_timeout ? [var.auto_termination_idle_timeout] : []
+    for_each = var.auto_termination_idle_timeout != null ? [var.auto_termination_idle_timeout] : []
     content {
       idle_timeout = var.auto_termination_idle_timeout
     }
