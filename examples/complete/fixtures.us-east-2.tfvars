@@ -17,7 +17,8 @@ visible_to_all_users = true
 release_label = "emr-6.7.0"
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-ha-applications.html
-applications = ["Hive", "Presto", "JupyterHub"]
+# https://github.com/hashicorp/terraform-provider-aws/issues/23226
+applications = ["Hive", "Presto", "JupyterEnterpriseGateway", "JupyterHub"]
 
 core_instance_group_instance_type = "m4.large"
 
