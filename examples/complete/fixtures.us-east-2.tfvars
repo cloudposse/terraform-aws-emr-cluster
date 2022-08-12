@@ -6,17 +6,18 @@ namespace = "eg"
 
 stage = "test"
 
-# name will be passed in by terratest, see 'examples_complete_test.go'
-//name = "emr-test"
+name = "emr"
 
 ebs_root_volume_size = 10
 
 visible_to_all_users = true
 
 # https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-components.html
-release_label = "emr-6.1.0"
+# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-670-release.html
+release_label = "emr-6.7.0"
 
-applications = ["Hive", "Presto"]
+# https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-ha-applications.html
+applications = ["Hive", "Presto", "JupyterHub"]
 
 core_instance_group_instance_type = "m4.large"
 

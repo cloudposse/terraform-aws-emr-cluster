@@ -104,34 +104,35 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "cloudposse/vpc/aws"
+  source  = "cloudposse/vpc/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
-  cidr_block = "172.16.0.0/16"
+
+  ipv4_primary_cidr_block = "172.19.0.0/16"
+
+  context = module.this.context
 }
 
 module "subnets" {
   source = "cloudposse/dynamic-subnets/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
+
   availability_zones   = var.availability_zones
-  namespace            = var.namespace
-  stage                = var.stage
-  name                 = var.name
   vpc_id               = module.vpc.vpc_id
-  igw_id               = module.vpc.igw_id
-  cidr_block           = module.vpc.vpc_cidr_block
+  igw_id               = [module.vpc.igw_id]
+  ipv4_cidr_block      = [module.vpc.vpc_cidr_block]
   nat_gateway_enabled  = false
   nat_instance_enabled = false
+
+  context = module.this.context
 }
 
 module "s3_log_storage" {
   source = "cloudposse/s3-log-storage/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
+  
   region        = var.region
   namespace     = var.namespace
   stage         = var.stage
@@ -156,6 +157,7 @@ module "emr_cluster" {
   source = "cloudposse/emr-cluster/aws"
   # Cloud Posse recommends pinning every module to a specific version
   # version     = "x.x.x"
+  
   namespace                                      = var.namespace
   stage                                          = var.stage
   name                                           = var.name
