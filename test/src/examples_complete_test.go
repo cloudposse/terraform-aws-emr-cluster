@@ -49,12 +49,12 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	privateSubnetCidrs := terraform.OutputList(t, terraformOptions, "private_subnet_cidrs")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, []string{"172.16.0.0/19"}, privateSubnetCidrs)
+	assert.Equal(t, []string{"172.19.0.0/19"}, privateSubnetCidrs)
 
 	// Run `terraform output` to get the value of an output variable
 	publicSubnetCidrs := terraform.OutputList(t, terraformOptions, "public_subnet_cidrs")
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, []string{"172.16.96.0/19"}, publicSubnetCidrs)
+	assert.Equal(t, []string{"172.19.96.0/19"}, publicSubnetCidrs)
 
 	// Run `terraform output` to get the value of an output variable
 	s3LogStorageBucketId := terraform.Output(t, terraformOptions, "s3_log_storage_bucket_id")
