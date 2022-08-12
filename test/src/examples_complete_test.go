@@ -15,7 +15,7 @@ func TestExamplesComplete(t *testing.T) {
 	t.Parallel()
 	randID := strings.ToLower(random.UniqueId())
 	attributes := []string{randID}
-	testNamePrefix := "eg-test-emr" + randID
+	testNamePrefix := "eg-test-emr-" + randID
 
 	rootFolder := "../../"
 	terraformFolderRelativeToRoot := "examples/complete"
