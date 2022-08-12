@@ -27,7 +27,7 @@ module "subnets" {
 
 module "s3_log_storage" {
   source  = "cloudposse/s3-log-storage/aws"
-  version = "0.24.1"
+  version = "0.26.0"
 
   attributes    = ["logs"]
   force_destroy = true
