@@ -29,8 +29,8 @@ module "s3_log_storage" {
   source  = "cloudposse/s3-log-storage/aws"
   version = "0.26.0"
 
-  attributes    = ["logs"]
   force_destroy = true
+  attributes    = ["logs"]
 
   context = module.this.context
 }
@@ -39,12 +39,9 @@ module "aws_key_pair" {
   source  = "cloudposse/key-pair/aws"
   version = "0.18.3"
 
-  namespace           = var.namespace
-  stage               = var.stage
-  name                = var.name
-  attributes          = ["ssh", "key"]
   ssh_public_key_path = var.ssh_public_key_path
   generate_ssh_key    = var.generate_ssh_key
+  attributes          = ["ssh", "key"]
 
   context = module.this.context
 }
