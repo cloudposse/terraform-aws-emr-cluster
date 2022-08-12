@@ -13,10 +13,10 @@ ebs_root_volume_size = 10
 visible_to_all_users = true
 
 # https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-release-components.html
-# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-670-release.html
 release_label = "emr-6.7.0"
 
 # https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-ha-applications.html
+# https://docs.aws.amazon.com/emr/latest/ReleaseGuide/emr-670-release.html
 # https://github.com/hashicorp/terraform-provider-aws/issues/23226
 applications = ["Hive", "Presto", "JupyterEnterpriseGateway", "JupyterHub"]
 
