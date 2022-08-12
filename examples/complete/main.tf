@@ -54,8 +54,8 @@ module "emr_cluster" {
   slave_allowed_security_groups                  = [module.vpc.vpc_default_security_group_id]
   region                                         = var.region
   vpc_id                                         = module.vpc.vpc_id
-  subnet_id                                      = module.subnets.private_subnet_ids[0]
-  route_table_id                                 = module.subnets.private_route_table_ids[0]
+  subnet_id                                      = module.this.enabled ? module.subnets.private_subnet_ids[0] : null
+  route_table_id                                 = module.this.enabled ? module.subnets.private_route_table_ids[0] : null
   subnet_type                                    = "private"
   ebs_root_volume_size                           = var.ebs_root_volume_size
   visible_to_all_users                           = var.visible_to_all_users
