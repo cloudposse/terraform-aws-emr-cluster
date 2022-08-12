@@ -4,21 +4,21 @@ provider "aws" {
 
 module "vpc" {
   source  = "cloudposse/vpc/aws"
-  version = "0.25.0"
+  version = "1.1.0"
 
-  cidr_block = "172.16.0.0/16"
+  ipv4_primary_cidr_block = "172.19.0.0/16"
 
   context = module.this.context
 }
 
 module "subnets" {
   source  = "cloudposse/dynamic-subnets/aws"
-  version = "0.39.4"
+  version = "2.0.2"
 
   availability_zones   = var.availability_zones
   vpc_id               = module.vpc.vpc_id
-  igw_id               = module.vpc.igw_id
-  cidr_block           = module.vpc.vpc_cidr_block
+  igw_id               = [module.vpc.igw_id]
+  ipv4_cidr_block      = [module.vpc.vpc_cidr_block]
   nat_gateway_enabled  = false
   nat_instance_enabled = false
 
@@ -27,23 +27,23 @@ module "subnets" {
 
 module "s3_log_storage" {
   source  = "cloudposse/s3-log-storage/aws"
-  version = "0.24.1"
+  version = "0.26.0"
 
-  attributes    = ["logs"]
   force_destroy = true
+  attributes    = ["logs"]
 
   context = module.this.context
 }
 
 module "aws_key_pair" {
-  source              = "cloudposse/key-pair/aws"
-  version             = "0.18.2"
-  namespace           = var.namespace
-  stage               = var.stage
-  name                = var.name
-  attributes          = ["ssh", "key"]
+  source  = "cloudposse/key-pair/aws"
+  version = "0.18.3"
+
   ssh_public_key_path = var.ssh_public_key_path
   generate_ssh_key    = var.generate_ssh_key
+  attributes          = ["ssh", "key"]
+
+  context = module.this.context
 }
 
 module "emr_cluster" {
@@ -53,8 +53,8 @@ module "emr_cluster" {
   slave_allowed_security_groups                  = [module.vpc.vpc_default_security_group_id]
   region                                         = var.region
   vpc_id                                         = module.vpc.vpc_id
-  subnet_id                                      = module.subnets.private_subnet_ids[0]
-  route_table_id                                 = module.subnets.private_route_table_ids[0]
+  subnet_id                                      = module.this.enabled ? module.subnets.private_subnet_ids[0] : null
+  route_table_id                                 = module.this.enabled ? module.subnets.private_route_table_ids[0] : null
   subnet_type                                    = "private"
   ebs_root_volume_size                           = var.ebs_root_volume_size
   visible_to_all_users                           = var.visible_to_all_users
