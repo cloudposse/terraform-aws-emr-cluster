@@ -398,7 +398,7 @@ Allows SSH logins to EMR instances via SSM agent.
 https://aws.amazon.com/blogs/big-data/securing-access-to-emr-clusters-using-aws-systems-manager/
 */
 resource "aws_iam_role_policy_attachment" "emr_ssm_access" {
-  count = local.enabled && var.service_role_enabled && var.enable_ssm_access ? 1 : 0
+  count = local.enabled && var.ec2_role_enabled && var.enable_ssm_access ? 1 : 0
 
   role       = join("", aws_iam_role.ec2.*.name)
   policy_arn = "arn:${local.aws_partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
