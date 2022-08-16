@@ -250,6 +250,7 @@ Available targets:
 | [aws_iam_role_policy_attachment.ec2](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.ec2_autoscaling](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_iam_role_policy_attachment.emr](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
+| [aws_iam_role_policy_attachment.emr_ssm_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_role_policy_attachment) | resource |
 | [aws_security_group.managed_master](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.managed_service_access](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
 | [aws_security_group.managed_slave](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
@@ -303,6 +304,7 @@ Available targets:
 | <a name="input_ec2_role_enabled"></a> [ec2\_role\_enabled](#input\_ec2\_role\_enabled) | If set to `false`, will use `existing_ec2_instance_profile_arn` for an existing EC2 IAM role that was created outside of this module | `bool` | `true` | no |
 | <a name="input_ec2_role_permissions_boundary"></a> [ec2\_role\_permissions\_boundary](#input\_ec2\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EC2 Role. | `string` | `""` | no |
 | <a name="input_emr_role_permissions_boundary"></a> [emr\_role\_permissions\_boundary](#input\_emr\_role\_permissions\_boundary) | The Permissions Boundary ARN to apply to the EMR Role. | `string` | `""` | no |
+| <a name="input_enable_ssm_access"></a> [enable\_ssm\_access](#input\_enable\_ssm\_access) | If set to `true`, attach the existing `AmazonSSMManagedInstanceCore` IAM policy to the EMR EC2 instance profile role | `bool` | `false` | no |
 | <a name="input_enabled"></a> [enabled](#input\_enabled) | Set to false to prevent the module from creating any resources | `bool` | `null` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | ID element. Usually used for region e.g. 'uw2', 'us-west-2', OR role 'prod', 'staging', 'dev', 'UAT' | `string` | `null` | no |
 | <a name="input_existing_ec2_autoscaling_role_arn"></a> [existing\_ec2\_autoscaling\_role\_arn](#input\_existing\_ec2\_autoscaling\_role\_arn) | ARN of an existing EC2 autoscaling role to attach to the cluster | `string` | `""` | no |
@@ -545,7 +547,7 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
-
+<!-- markdownlint-disable -->
   [logo]: https://cloudposse.com/logo-300x69.svg
   [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-emr-cluster&utm_content=docs
   [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-emr-cluster&utm_content=website
@@ -576,3 +578,4 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-aws-emr-cluster
   [share_email]: mailto:?subject=terraform-aws-emr-cluster&body=https://github.com/cloudposse/terraform-aws-emr-cluster
   [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-aws-emr-cluster?pixel&cs=github&cm=readme&an=terraform-aws-emr-cluster
+<!-- markdownlint-restore -->
