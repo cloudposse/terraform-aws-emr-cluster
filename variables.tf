@@ -148,6 +148,12 @@ variable "service_role_enabled" {
   default     = true
 }
 
+variable "enable_ssm_access" {
+  type        = bool
+  description = "If set to `true`, attach the existing `AmazonSSMManagedInstanceCore` IAM policy to the EMR EC2 instance profile role"
+  default     = false
+}
+
 variable "existing_ec2_instance_profile_arn" {
   type        = string
   description = "ARN of an existing EC2 instance profile"
