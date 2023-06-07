@@ -1,7 +1,7 @@
 locals {
   enabled = module.this.enabled
 
-  aws_partition = join("", data.aws_partition.current.*.partition)
+  aws_partition = join("", data.aws_partition.current[*].partition)
 
   # This dummy bootstrap action is needed because of terraform bug https://github.com/terraform-providers/terraform-provider-aws/issues/12683
   # When javax.jdo.option.ConnectionPassword is used in configuration_json then every plan will result in force recreation of EMR cluster.
@@ -151,7 +151,7 @@ resource "aws_security_group_rule" "managed_master_egress" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = join("", aws_security_group.managed_master.*.id)
+  security_group_id = join("", aws_security_group.managed_master[*].id)
 }
 
 resource "aws_security_group" "managed_slave" {
@@ -179,7 +179,7 @@ resource "aws_security_group_rule" "managed_slave_egress" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = join("", aws_security_group.managed_slave.*.id)
+  security_group_id = join("", aws_security_group.managed_slave[*].id)
 }
 
 resource "aws_security_group" "managed_service_access" {
@@ -205,8 +205,8 @@ resource "aws_security_group_rule" "managed_master_service_access_ingress" {
   from_port                = 9443
   to_port                  = 9443
   protocol                 = "tcp"
-  source_security_group_id = join("", aws_security_group.managed_master.*.id)
-  security_group_id        = join("", aws_security_group.managed_service_access.*.id)
+  source_security_group_id = join("", aws_security_group.managed_master[*].id)
+  security_group_id        = join("", aws_security_group.managed_service_access[*].id)
 }
 
 resource "aws_security_group_rule" "managed_service_access_egress" {
@@ -219,7 +219,7 @@ resource "aws_security_group_rule" "managed_service_access_egress" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
   ipv6_cidr_blocks  = ["::/0"]
-  security_group_id = join("", aws_security_group.managed_service_access.*.id)
+  security_group_id = join("", aws_security_group.managed_service_access[*].id)
 }
 
 # Specify additional master and slave security groups
@@ -242,7 +242,7 @@ resource "aws_security_group_rule" "master_ingress_security_groups" {
   to_port                  = 65535
   protocol                 = "tcp"
   source_security_group_id = var.master_allowed_security_groups[count.index]
-  security_group_id        = join("", aws_security_group.master.*.id)
+  security_group_id        = join("", aws_security_group.master[*].id)
 }
 
 resource "aws_security_group_rule" "master_ingress_cidr_blocks" {
@@ -254,7 +254,7 @@ resource "aws_security_group_rule" "master_ingress_cidr_blocks" {
   to_port           = 65535
   protocol          = "tcp"
   cidr_blocks       = var.master_allowed_cidr_blocks
-  security_group_id = join("", aws_security_group.master.*.id)
+  security_group_id = join("", aws_security_group.master[*].id)
 }
 
 resource "aws_security_group_rule" "master_egress" {
@@ -266,7 +266,7 @@ resource "aws_security_group_rule" "master_egress" {
   to_port           = 65535
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = join("", aws_security_group.master.*.id)
+  security_group_id = join("", aws_security_group.master[*].id)
 }
 
 resource "aws_security_group" "slave" {
@@ -288,7 +288,7 @@ resource "aws_security_group_rule" "slave_ingress_security_groups" {
   to_port                  = 65535
   protocol                 = "tcp"
   source_security_group_id = var.slave_allowed_security_groups[count.index]
-  security_group_id        = join("", aws_security_group.slave.*.id)
+  security_group_id        = join("", aws_security_group.slave[*].id)
 }
 
 resource "aws_security_group_rule" "slave_ingress_cidr_blocks" {
@@ -300,7 +300,7 @@ resource "aws_security_group_rule" "slave_ingress_cidr_blocks" {
   to_port           = 65535
   protocol          = "tcp"
   cidr_blocks       = var.slave_allowed_cidr_blocks
-  security_group_id = join("", aws_security_group.slave.*.id)
+  security_group_id = join("", aws_security_group.slave[*].id)
 }
 
 resource "aws_security_group_rule" "slave_egress" {
@@ -312,7 +312,7 @@ resource "aws_security_group_rule" "slave_egress" {
   to_port           = 65535
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = join("", aws_security_group.slave.*.id)
+  security_group_id = join("", aws_security_group.slave[*].id)
 }
 
 /*
@@ -339,7 +339,7 @@ resource "aws_iam_role" "emr" {
   count = local.enabled && var.service_role_enabled ? 1 : 0
 
   name                 = module.label_emr.id
-  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_emr[*].json)
   permissions_boundary = var.emr_role_permissions_boundary
 
   tags = module.this.tags
@@ -349,7 +349,7 @@ resource "aws_iam_role" "emr" {
 resource "aws_iam_role_policy_attachment" "emr" {
   count = local.enabled && var.service_role_enabled ? 1 : 0
 
-  role       = join("", aws_iam_role.emr.*.name)
+  role       = join("", aws_iam_role.emr[*].name)
   policy_arn = "arn:${local.aws_partition}:iam::aws:policy/service-role/AmazonElasticMapReduceRole"
 }
 
@@ -379,7 +379,7 @@ resource "aws_iam_role" "ec2" {
   count = local.enabled && var.ec2_role_enabled ? 1 : 0
 
   name                 = module.label_ec2.id
-  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_ec2.*.json)
+  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_ec2[*].json)
   permissions_boundary = var.ec2_role_permissions_boundary
 
   tags = module.this.tags
@@ -389,7 +389,7 @@ resource "aws_iam_role" "ec2" {
 resource "aws_iam_role_policy_attachment" "ec2" {
   count = local.enabled && var.ec2_role_enabled ? 1 : 0
 
-  role       = join("", aws_iam_role.ec2.*.name)
+  role       = join("", aws_iam_role.ec2[*].name)
   policy_arn = "arn:${local.aws_partition}:iam::aws:policy/service-role/AmazonElasticMapReduceforEC2Role"
 }
 
@@ -400,15 +400,15 @@ https://aws.amazon.com/blogs/big-data/securing-access-to-emr-clusters-using-aws-
 resource "aws_iam_role_policy_attachment" "emr_ssm_access" {
   count = local.enabled && var.ec2_role_enabled && var.enable_ssm_access ? 1 : 0
 
-  role       = join("", aws_iam_role.ec2.*.name)
+  role       = join("", aws_iam_role.ec2[*].name)
   policy_arn = "arn:${local.aws_partition}:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }
 
 resource "aws_iam_instance_profile" "ec2" {
   count = local.enabled && var.ec2_role_enabled ? 1 : 0
 
-  name = join("", aws_iam_role.ec2.*.name)
-  role = join("", aws_iam_role.ec2.*.name)
+  name = join("", aws_iam_role.ec2[*].name)
+  role = join("", aws_iam_role.ec2[*].name)
   tags = module.this.tags
 }
 
@@ -421,7 +421,7 @@ resource "aws_iam_role" "ec2_autoscaling" {
   count = local.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
 
   name                 = module.label_ec2_autoscaling.id
-  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_emr.*.json)
+  assume_role_policy   = join("", data.aws_iam_policy_document.assume_role_emr[*].json)
   permissions_boundary = var.ec2_autoscaling_role_permissions_boundary
 
   tags = module.this.tags
@@ -431,7 +431,7 @@ resource "aws_iam_role" "ec2_autoscaling" {
 resource "aws_iam_role_policy_attachment" "ec2_autoscaling" {
   count = local.enabled && var.ec2_autoscaling_role_enabled ? 1 : 0
 
-  role       = join("", aws_iam_role.ec2_autoscaling.*.name)
+  role       = join("", aws_iam_role.ec2_autoscaling[*].name)
   policy_arn = "arn:${local.aws_partition}:iam::aws:policy/service-role/AmazonElasticMapReduceforAutoScalingRole"
 }
 
@@ -445,12 +445,12 @@ resource "aws_emr_cluster" "default" {
   ec2_attributes {
     key_name                          = var.key_name
     subnet_id                         = var.subnet_id
-    emr_managed_master_security_group = var.use_existing_managed_master_security_group == false ? join("", aws_security_group.managed_master.*.id) : var.managed_master_security_group
-    emr_managed_slave_security_group  = var.use_existing_managed_slave_security_group == false ? join("", aws_security_group.managed_slave.*.id) : var.managed_slave_security_group
-    service_access_security_group     = var.use_existing_service_access_security_group == false && var.subnet_type == "private" ? join("", aws_security_group.managed_service_access.*.id) : var.service_access_security_group
-    instance_profile                  = var.ec2_role_enabled ? join("", aws_iam_instance_profile.ec2.*.arn) : var.existing_ec2_instance_profile_arn
-    additional_master_security_groups = var.use_existing_additional_master_security_group == false ? join("", aws_security_group.master.*.id) : var.additional_master_security_group
-    additional_slave_security_groups  = var.use_existing_additional_slave_security_group == false ? join("", aws_security_group.slave.*.id) : var.additional_slave_security_group
+    emr_managed_master_security_group = var.use_existing_managed_master_security_group == false ? join("", aws_security_group.managed_master[*].id) : var.managed_master_security_group
+    emr_managed_slave_security_group  = var.use_existing_managed_slave_security_group == false ? join("", aws_security_group.managed_slave[*].id) : var.managed_slave_security_group
+    service_access_security_group     = var.use_existing_service_access_security_group == false && var.subnet_type == "private" ? join("", aws_security_group.managed_service_access[*].id) : var.service_access_security_group
+    instance_profile                  = var.ec2_role_enabled ? join("", aws_iam_instance_profile.ec2[*].arn) : var.existing_ec2_instance_profile_arn
+    additional_master_security_groups = var.use_existing_additional_master_security_group == false ? join("", aws_security_group.master[*].id) : var.additional_master_security_group
+    additional_slave_security_groups  = var.use_existing_additional_slave_security_group == false ? join("", aws_security_group.slave[*].id) : var.additional_slave_security_group
   }
 
   termination_protection            = var.termination_protection
@@ -542,8 +542,8 @@ resource "aws_emr_cluster" "default" {
 
   log_uri = var.log_uri
 
-  service_role     = var.service_role_enabled ? join("", aws_iam_role.emr.*.arn) : var.existing_service_role_arn
-  autoscaling_role = var.ec2_autoscaling_role_enabled ? join("", aws_iam_role.ec2_autoscaling.*.arn) : var.existing_ec2_autoscaling_role_arn
+  service_role     = var.service_role_enabled ? join("", aws_iam_role.emr[*].arn) : var.existing_service_role_arn
+  autoscaling_role = var.ec2_autoscaling_role_enabled ? join("", aws_iam_role.ec2_autoscaling[*].arn) : var.existing_ec2_autoscaling_role_arn
 
   # configurations_json changes are ignored because of terraform bug. Configuration changes are applied via local.bootstrap_action.
   lifecycle {
@@ -559,7 +559,7 @@ resource "aws_emr_instance_group" "task" {
   count = local.enabled && var.create_task_instance_group ? 1 : 0
 
   name       = module.label_task.id
-  cluster_id = join("", aws_emr_cluster.default.*.id)
+  cluster_id = join("", aws_emr_cluster.default[*].id)
 
   instance_type  = var.task_instance_group_instance_type
   instance_count = var.task_instance_group_instance_count
@@ -584,7 +584,7 @@ module "dns_master" {
 
   dns_name = var.master_dns_name != null && var.master_dns_name != "" ? var.master_dns_name : "emr-master-${module.this.name}"
   zone_id  = var.zone_id
-  records  = coalescelist(aws_emr_cluster.default.*.master_public_dns, [""])
+  records  = coalescelist(aws_emr_cluster.default[*].master_public_dns, [""])
 
   context = module.this.context
 }
