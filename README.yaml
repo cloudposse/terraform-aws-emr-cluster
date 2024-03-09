@@ -31,12 +31,17 @@ github_repo: cloudposse/terraform-aws-emr-cluster
 
 # Badges to display
 badges:
-  - name: "Latest Release"
-    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-emr-cluster.svg"
-    url: "https://github.com/cloudposse/terraform-aws-emr-cluster/releases/latest"
-  - name: "Slack Community"
-    image: "https://slack.cloudposse.com/badge.svg"
-    url: "https://slack.cloudposse.com"
+  - name: Latest Release
+    image: https://img.shields.io/github/release/cloudposse/terraform-aws-emr-cluster.svg?style=for-the-badge
+    url: https://github.com/cloudposse/terraform-aws-emr-cluster/releases/latest
+  - name: Last Updated
+    image: https://img.shields.io/github/last-commit/cloudposse/terraform-aws-emr-cluster.svg?style=for-the-badge
+    url: https://github.com/cloudposse/terraform-aws-emr-cluster/commits
+  - name: Slack Community
+    image: https://slack.cloudposse.com/for-the-badge.svg
+    url: https://slack.cloudposse.com
+
+# List any related terraform modules that this module may be used with or that this module depends on.
 related:
   - name: "terraform-aws-rds-cluster"
     description: "Terraform module to provision an RDS Aurora cluster for MySQL or Postgres"
@@ -85,7 +90,7 @@ usage: |2-
     ipv4_cidr_block      = [module.vpc.vpc_cidr_block]
     nat_gateway_enabled  = false
     nat_instance_enabled = false
-  
+
     context = module.this.context
   }
 
@@ -164,10 +169,4 @@ include:
   - "docs/terraform.md"
 
 # Contributors to this project
-contributors:
-  - name: "Erik Osterman"
-    github: "osterman"
-  - name: "Andriy Knysh"
-    github: "aknysh"
-  - name: "Igor Rodionov"
-    github: "goruha"
+contributors: []
