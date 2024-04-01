@@ -1,0 +1,7 @@
+# Upstream changes from _extends are only recognized when modifications are made to this file in the default branch.
+_extends: .github
+repository:
+  name: terraform-aws-emr-cluster
+  description: Terraform module to provision an Elastic MapReduce (EMR) cluster on AWS
+  homepage: https://cloudposse.com/accelerate
+  topics: hcl2, emr, emr-cluster, emrfs, emr-notebooks, terraform, terraform-modules, terraform-module, terraform-aws, hadoop, hive, presto, spark
