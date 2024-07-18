@@ -5,3 +5,4 @@ repository:
   description: Terraform module to provision an Elastic MapReduce (EMR) cluster on AWS
   homepage: https://cloudposse.com/accelerate
   topics: hcl2, emr, emr-cluster, emrfs, emr-notebooks, terraform, terraform-modules, terraform-module, terraform-aws, hadoop, hive, presto, spark
+
