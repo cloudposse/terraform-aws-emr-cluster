@@ -1,6 +1,8 @@
 module github.com/cloudposse/terraform-aws-emr-cluster
 
-go 1.18
+go 1.24
+
+toolchain go1.24.0
 
 require (
 	github.com/gruntwork-io/terratest v0.40.19
